@@ -19,20 +19,21 @@ text-align:center;
 padding:20px;
 }
 
-header img{width:100px;}
+header img{
+width:100px;
+}
 
 .products{
 display:flex;
 justify-content:center;
-gap:30px;
+gap:20px;
 padding:20px;
 flex-wrap:wrap;
 }
 
 .card{
 background:white;
-width:320px;
-max-width:90%;
+width:300px;
 padding:20px;
 border-radius:15px;
 text-align:center;
@@ -52,6 +53,12 @@ padding:12px;
 border-radius:25px;
 margin-top:10px;
 width:100%;
+font-size:16px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff1f4b;
 }
 
 .cart{
@@ -61,6 +68,28 @@ padding:20px;
 width:95%;
 max-width:600px;
 border-radius:15px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin:6px 0;
+font-size:16px;
+}
+
+.cart-item{
+display:flex;
+justify-content:space-between;
+margin:5px 0;
+}
+
+.remove{
+background:red;
+border:none;
+color:white;
+padding:4px 8px;
+border-radius:10px;
+cursor:pointer;
 }
 </style>
 </head>
@@ -79,15 +108,101 @@ border-radius:15px;
 <img src="pokemon.jpg">
 <h2>Pokemon Kortboks</h2>
 <p><strong>399 kr</strong></p>
+<button onclick="addToCart('Pokemon Kortboks',399)">Legg i handlekurv</button>
 </div>
 
 <div class="card">
 <img src="is1.jpg">
 <h2>Isbeger Holder</h2>
 <p><strong>799 kr</strong></p>
+<button onclick="addToCart('Isbeger Holder',799)">Legg i handlekurv</button>
 </div>
 
 </div>
+
+<div class="cart">
+<h2>Handlekurv</h2>
+<div id="cartItems"></div>
+<p><strong>Total: <span id="total">0</span> kr</strong></p>
+
+<h3>Kundeinformasjon</h3>
+<input type="text" id="name" placeholder="Navn" required>
+<input type="text" id="address" placeholder="Adresse" required>
+<input type="text" id="postcode" placeholder="Postnummer" required>
+<input type="text" id="city" placeholder="Poststed" required>
+<input type="text" id="phone" placeholder="Telefonnummer" required>
+
+<button onclick="checkout()">Fullfør bestilling</button>
+</div>
+
+<script>
+let cart=[];
+let total=0;
+
+function addToCart(name,price){
+cart.push({name,price});
+total+=price;
+renderCart();
+}
+
+function removeItem(index){
+total-=cart[index].price;
+cart.splice(index,1);
+renderCart();
+}
+
+function renderCart(){
+let cartDiv=document.getElementById("cartItems");
+cartDiv.innerHTML="";
+cart.forEach((item,index)=>{
+cartDiv.innerHTML+=`
+<div class="cart-item">
+${item.name} - ${item.price} kr
+<button class="remove" onclick="removeItem(${index})">X</button>
+</div>
+`;
+});
+document.getElementById("total").innerText=total;
+}
+
+function checkout(){
+
+if(cart.length===0){
+alert("Handlekurven er tom!");
+return;
+}
+
+let name=document.getElementById("name").value;
+let address=document.getElementById("address").value;
+let postcode=document.getElementById("postcode").value;
+let city=document.getElementById("city").value;
+let phone=document.getElementById("phone").value;
+
+if(!name || !address || !postcode || !city || !phone){
+alert("Fyll inn all kundeinformasjon.");
+return;
+}
+
+let orderNumber=Math.floor(Math.random()*1000000);
+
+let items=cart.map(item=>item.name+" - "+item.price+" kr").join("%0D%0A");
+
+let mailBody=
+"Ordrenummer: "+orderNumber+"%0D%0A%0D%0A"+
+"Produkter:%0D%0A"+items+"%0D%0A%0D%0A"+
+"Total: "+total+" kr%0D%0A%0D%0A"+
+"Kundeinfo:%0D%0A"+
+"Navn: "+name+"%0D%0A"+
+"Adresse: "+address+"%0D%0A"+
+"Postnummer: "+postcode+"%0D%0A"+
+"Poststed: "+city+"%0D%0A"+
+"Telefon: "+phone+"%0D%0A%0D%0A"+
+"Vipps: 48093344";
+
+window.location.href=
+"mailto:hj.1994@hotmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
+}
+</script>
 
 </body>
 </html>
