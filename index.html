@@ -19,9 +19,7 @@ text-align:center;
 padding:20px;
 }
 
-header img{
-width:100px;
-}
+header img{width:100px;}
 
 .products{
 display:flex;
@@ -38,7 +36,7 @@ padding:20px;
 border-radius:15px;
 text-align:center;
 box-shadow:0 8px 20px rgba(0,0,0,0.3);
-position:relative;
+cursor:pointer;
 }
 
 .card img{
@@ -58,8 +56,16 @@ font-size:16px;
 cursor:pointer;
 }
 
-button:hover{
-background:#ff1f4b;
+button:hover{background:#ff1f4b;}
+
+.offer-badge{
+background:green;
+color:white;
+padding:5px 8px;
+border-radius:8px;
+font-size:14px;
+margin-top:5px;
+display:inline-block;
 }
 
 .cart{
@@ -101,14 +107,39 @@ margin-top:15px;
 font-size:14px;
 }
 
-.offer-badge{
-background:green;
-color:white;
-padding:5px 8px;
-border-radius:8px;
-font-size:14px;
-margin-top:5px;
-display:inline-block;
+/* MODAL */
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:1000;
+}
+
+.modal-content{
+background:white;
+padding:20px;
+border-radius:15px;
+width:90%;
+max-width:500px;
+text-align:center;
+position:relative;
+}
+
+.modal-content img{
+width:100%;
+border-radius:10px;
+}
+
+.close{
+position:absolute;
+top:10px;
+right:15px;
+font-size:22px;
+cursor:pointer;
 }
 
 @media(max-width:600px){
@@ -130,14 +161,14 @@ align-items:center;
 
 <div class="products">
 
-<div class="card">
+<div class="card" onclick="openGallery('pokemon')">
 <img src="pokemon.jpg">
 <h2>Pokemon Kortboks</h2>
 <p><strong>399 kr</strong></p>
-<button onclick="addToCart('Pokemon Kortboks',399)">Legg i handlekurv</button>
+<button onclick="event.stopPropagation(); addToCart('Pokemon Kortboks',399)">Legg i handlekurv</button>
 </div>
 
-<div class="card">
+<div class="card" onclick="openGallery('is')">
 <img src="is1.jpg">
 <h2>Isbeger Holder</h2>
 
@@ -148,11 +179,23 @@ align-items:center;
 
 <div class="offer-badge">🔥 Tilbud!</div>
 
-<button onclick="addToCart('Isbeger Holder',699)">Legg i handlekurv</button>
+<button onclick="event.stopPropagation(); addToCart('Isbeger Holder',699)">Legg i handlekurv</button>
 </div>
 
 </div>
 
+<!-- GALLERI MODAL -->
+<div class="modal" id="galleryModal">
+<div class="modal-content">
+<span class="close" onclick="closeGallery()">✖</span>
+<img id="galleryImage">
+<br><br>
+<button onclick="prevImage()">Forrige</button>
+<button onclick="nextImage()">Neste</button>
+</div>
+</div>
+
+<!-- HANDLEKURV -->
 <div class="cart">
 <h2>Handlekurv</h2>
 <div id="cartItems"></div>
@@ -178,6 +221,7 @@ Produksjon starter når betaling er mottatt.
 </div>
 
 <script>
+
 let cart=[];
 let total=0;
 
@@ -206,6 +250,39 @@ ${item.name} - ${item.price} kr
 });
 document.getElementById("total").innerText=total;
 }
+
+/* GALLERI */
+
+let currentImages=[];
+let currentIndex=0;
+
+const galleries={
+pokemon:["pokemon.jpg","pokemon2.jpg"],
+is:["is1.jpg","is2.jpg","is3.jpg","is4.png","is5.png"]
+};
+
+function openGallery(type){
+currentImages=galleries[type];
+currentIndex=0;
+document.getElementById("galleryImage").src=currentImages[currentIndex];
+document.getElementById("galleryModal").style.display="flex";
+}
+
+function closeGallery(){
+document.getElementById("galleryModal").style.display="none";
+}
+
+function nextImage(){
+currentIndex=(currentIndex+1)%currentImages.length;
+document.getElementById("galleryImage").src=currentImages[currentIndex];
+}
+
+function prevImage(){
+currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
+document.getElementById("galleryImage").src=currentImages[currentIndex];
+}
+
+/* CHECKOUT */
 
 function checkout(){
 
@@ -244,6 +321,7 @@ let mailBody=
 window.location.href=
 "mailto:hj.1994@hotmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
 }
+
 </script>
 
 </body>
