@@ -20,10 +20,12 @@ button:hover{background:#ff1f4b;}
 input{width:100%;padding:10px;margin:6px 0;}
 .cart-item{display:flex;justify-content:space-between;margin:5px 0;}
 .remove{background:red;color:white;border:none;padding:4px 8px;border-radius:8px;cursor:pointer;}
+.warning{background:#fff3cd;padding:15px;border-radius:10px;margin-top:10px;font-size:14px;}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;}
 .modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:500px;text-align:center;position:relative;}
 .modal-content img{width:100%;border-radius:10px;}
 .close{position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;}
+.thankyou{display:none;background:white;padding:40px;margin:40px auto;width:90%;max-width:600px;border-radius:20px;text-align:center;}
 @media(max-width:600px){.products{flex-direction:column;align-items:center;}}
 </style>
 </head>
@@ -36,56 +38,38 @@ input{width:100%;padding:10px;margin:6px 0;}
 <p><strong>Alle produkter printes på bestilling</strong></p>
 </header>
 
+<div id="shopContent">
+
 <div class="products">
 
-<!-- POKEMON -->
 <div class="card">
 <img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
 <h2>Pokemon Kortboks</h2>
 <p><strong>399 kr</strong></p>
-
 <select id="pokemonVariant" onchange="changePokemonImage()">
 <option value="Rød">Rød topplokk</option>
 <option value="Blå">Blå topplokk</option>
 </select>
-
 <button onclick="addPokemon()">Legg i handlekurv</button>
 </div>
 
-<!-- IS -->
 <div class="card">
 <img id="isImage" src="is1.jpg" onclick="openGallery('is')">
 <h2>Isbeger Holder</h2>
-
 <p>
 <span style="text-decoration:line-through;color:gray;">799 kr</span>
 <strong style="color:red;font-size:20px;"> 699 kr</strong>
 </p>
-
 <div class="offer">🔥 Tilbud!</div>
-
 <select id="isVariant" onchange="changeIsImage()">
 <option value="Highland Cow">Highland Cow</option>
 <option value="Panda">Panda</option>
 </select>
-
 <button onclick="addIs()">Legg i handlekurv</button>
 </div>
 
 </div>
 
-<!-- GALLERI -->
-<div class="modal" id="galleryModal">
-<div class="modal-content">
-<span class="close" onclick="closeGallery()">✖</span>
-<img id="galleryImage">
-<br><br>
-<button onclick="prevImage()">Forrige</button>
-<button onclick="nextImage()">Neste</button>
-</div>
-</div>
-
-<!-- HANDLEKURV -->
 <div class="cart">
 <h2>Handlekurv</h2>
 <div id="cartItems"></div>
@@ -98,17 +82,39 @@ input{width:100%;padding:10px;margin:6px 0;}
 <input type="text" id="city" placeholder="Poststed">
 <input type="text" id="phone" placeholder="Telefonnummer">
 
-<div style="background:#fff3cd;padding:15px;border-radius:10px;margin-top:10px;font-size:14px;">
-<b>Slik fungerer bestilling:</b><br><br>
-1. Trykk <b>"Fullfør bestilling"</b><br>
-2. E-post åpnes automatisk<br>
-3. Send e-posten for å bekrefte bestillingen<br>
-4. Betal med Vipps til <b>48093344</b><br>
-5. Skriv <b>ordrenummeret</b> i kommentarfeltet i Vipps<br><br>
-Produksjon starter når betaling er mottatt.
+<div class="warning">
+<b>Viktig:</b><br><br>
+Bestillingen er <b>ikke registrert</b> før:<br>
+1. E-posten er sendt<br>
+2. Vipps betaling er mottatt<br>
+3. Ordrenummer er skrevet i Vipps-kommentarfeltet<br><br>
+Vipps: <b>48093344</b>
 </div>
 
 <button onclick="checkout()">Fullfør bestilling</button>
+</div>
+
+</div>
+
+<div class="thankyou" id="thankYouPage">
+<h2>🎉 Takk for bestillingen!</h2>
+<p id="orderNumberDisplay"></p>
+<p>
+1. Send e-posten som åpnes<br>
+2. Betal med Vipps til <b>48093344</b><br>
+3. Skriv ordrenummeret i kommentarfeltet
+</p>
+<button onclick="location.reload()">Tilbake til butikken</button>
+</div>
+
+<div class="modal" id="galleryModal">
+<div class="modal-content">
+<span class="close" onclick="closeGallery()">✖</span>
+<img id="galleryImage">
+<br><br>
+<button onclick="prevImage()">Forrige</button>
+<button onclick="nextImage()">Neste</button>
+</div>
 </div>
 
 <script>
@@ -116,95 +122,83 @@ let cart=[];
 let total=0;
 
 function addPokemon(){
-let variant=document.getElementById("pokemonVariant").value;
-addToCart("Pokemon Kortboks - "+variant,399);
+let v=document.getElementById("pokemonVariant").value;
+addToCart("Pokemon Kortboks - "+v,399);
 }
-
 function addIs(){
-let variant=document.getElementById("isVariant").value;
-addToCart("Isbeger Holder - "+variant,699);
+let v=document.getElementById("isVariant").value;
+addToCart("Isbeger Holder - "+v,699);
 }
-
 function addToCart(name,price){
 cart.push({name,price});
 total+=price;
 renderCart();
 }
-
 function renderCart(){
 let div=document.getElementById("cartItems");
 div.innerHTML="";
-cart.forEach((item,index)=>{
+cart.forEach((item,i)=>{
 div.innerHTML+=`
 <div class="cart-item">
 ${item.name} - ${item.price} kr
-<button class="remove" onclick="removeItem(${index})">X</button>
+<button class="remove" onclick="removeItem(${i})">X</button>
 </div>`;
 });
 document.getElementById("total").innerText=total;
 }
-
-function removeItem(index){
-total-=cart[index].price;
-cart.splice(index,1);
+function removeItem(i){
+total-=cart[i].price;
+cart.splice(i,1);
 renderCart();
 }
 
-/* Variant bildebytte */
 function changePokemonImage(){
-let variant=document.getElementById("pokemonVariant").value;
-document.getElementById("pokemonImage").src=
-variant==="Rød"?"pokemon.jpg":"pokemon2.jpg";
+let v=document.getElementById("pokemonVariant").value;
+document.getElementById("pokemonImage").src=v==="Rød"?"pokemon.jpg":"pokemon2.jpg";
 }
-
 function changeIsImage(){
-let variant=document.getElementById("isVariant").value;
-document.getElementById("isImage").src=
-variant==="Highland Cow"?"is1.jpg":"is4.png";
+let v=document.getElementById("isVariant").value;
+document.getElementById("isImage").src=v==="Highland Cow"?"is1.jpg":"is4.png";
 }
 
-/* Galleri */
 let currentImages=[];
 let currentIndex=0;
-
 function openGallery(type){
 if(type==="pokemon"){
-let variant=document.getElementById("pokemonVariant").value;
-currentImages=variant==="Rød"?["pokemon.jpg"]:["pokemon2.jpg"];
+let v=document.getElementById("pokemonVariant").value;
+currentImages=v==="Rød"?["pokemon.jpg"]:["pokemon2.jpg"];
 }
 if(type==="is"){
-let variant=document.getElementById("isVariant").value;
-currentImages=variant==="Highland Cow"?
-["is1.jpg","is2.jpg","is3.jpg"]:
-["is4.png","is5.png"];
+let v=document.getElementById("isVariant").value;
+currentImages=v==="Highland Cow"?["is1.jpg","is2.jpg","is3.jpg"]:["is4.png","is5.png"];
 }
 currentIndex=0;
 document.getElementById("galleryImage").src=currentImages[0];
 document.getElementById("galleryModal").style.display="flex";
 }
-
 function closeGallery(){document.getElementById("galleryModal").style.display="none";}
 function nextImage(){currentIndex=(currentIndex+1)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
 function prevImage(){currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
 
-/* Checkout */
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
 
 let orderNumber="H3D-"+Math.floor(Math.random()*1000000);
 
-alert(
-"Takk for bestillingen!\n\nOrdrenummer: "+orderNumber+
-"\n\n1. Send e-posten som åpnes nå.\n"+
-"2. Betal med Vipps til 48093344.\n"+
-"3. Skriv ordrenummeret i kommentarfeltet i Vipps."
-);
+document.getElementById("orderNumberDisplay").innerHTML=
+"<b>Ordrenummer:</b> "+orderNumber;
+
+document.getElementById("shopContent").style.display="none";
+document.getElementById("thankYouPage").style.display="block";
 
 window.location.href=
 "mailto:hj.1994@hotmail.com?subject=Ny bestilling "+orderNumber+
-"&body=Ordrenummer: "+orderNumber+"%0D%0A%0D%0AProdukter:%0D%0A"+
+"&body=Ordrenummer: "+orderNumber+"%0D%0AProdukter:%0D%0A"+
 cart.map(i=>i.name+" - "+i.price+" kr").join("%0D%0A")+
-"%0D%0A%0D%0ATotal: "+total+" kr%0D%0AVipps: 48093344%0D%0AHusk å skrive ordrenummer i Vipps-kommentar.";
+"%0D%0ATotal: "+total+" kr%0D%0AVipps: 48093344%0D%0AHusk å skrive ordrenummer i Vipps-kommentar.";
+
+cart=[];
+total=0;
 }
 </script>
 
