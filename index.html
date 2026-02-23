@@ -38,6 +38,7 @@ padding:20px;
 border-radius:15px;
 text-align:center;
 box-shadow:0 8px 20px rgba(0,0,0,0.3);
+position:relative;
 }
 
 .card img{
@@ -91,6 +92,31 @@ padding:4px 8px;
 border-radius:10px;
 cursor:pointer;
 }
+
+.info-box{
+background:#fff3cd;
+padding:15px;
+border-radius:10px;
+margin-top:15px;
+font-size:14px;
+}
+
+.offer-badge{
+background:green;
+color:white;
+padding:5px 8px;
+border-radius:8px;
+font-size:14px;
+margin-top:5px;
+display:inline-block;
+}
+
+@media(max-width:600px){
+.products{
+flex-direction:column;
+align-items:center;
+}
+}
 </style>
 </head>
 
@@ -114,8 +140,15 @@ cursor:pointer;
 <div class="card">
 <img src="is1.jpg">
 <h2>Isbeger Holder</h2>
-<p><strong>799 kr</strong></p>
-<button onclick="addToCart('Isbeger Holder',799)">Legg i handlekurv</button>
+
+<p>
+<span style="text-decoration:line-through; color:gray;">799 kr</span>
+<strong style="color:red; font-size:20px;"> 699 kr</strong>
+</p>
+
+<div class="offer-badge">🔥 Tilbud!</div>
+
+<button onclick="addToCart('Isbeger Holder',699)">Legg i handlekurv</button>
 </div>
 
 </div>
@@ -126,11 +159,20 @@ cursor:pointer;
 <p><strong>Total: <span id="total">0</span> kr</strong></p>
 
 <h3>Kundeinformasjon</h3>
-<input type="text" id="name" placeholder="Navn" required>
-<input type="text" id="address" placeholder="Adresse" required>
-<input type="text" id="postcode" placeholder="Postnummer" required>
-<input type="text" id="city" placeholder="Poststed" required>
-<input type="text" id="phone" placeholder="Telefonnummer" required>
+<input type="text" id="name" placeholder="Navn">
+<input type="text" id="address" placeholder="Adresse">
+<input type="text" id="postcode" placeholder="Postnummer">
+<input type="text" id="city" placeholder="Poststed">
+<input type="text" id="phone" placeholder="Telefonnummer">
+
+<div class="info-box">
+<b>Slik fungerer bestilling:</b><br><br>
+1. Trykk "Fullfør bestilling"<br>
+2. Du blir sendt til e-post<br>
+3. Send e-posten for å bekrefte bestillingen<br>
+4. Betal med Vipps til <b>48093344</b><br><br>
+Produksjon starter når betaling er mottatt.
+</div>
 
 <button onclick="checkout()">Fullfør bestilling</button>
 </div>
@@ -197,7 +239,7 @@ let mailBody=
 "Postnummer: "+postcode+"%0D%0A"+
 "Poststed: "+city+"%0D%0A"+
 "Telefon: "+phone+"%0D%0A%0D%0A"+
-"Vipps: 48093344";
+"Vipps betaling til: 48093344";
 
 window.location.href=
 "mailto:hj.1994@hotmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
