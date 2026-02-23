@@ -1,9 +1,93 @@
-index.html
-logo.png
-pokemon.jpg
-pokemon2.jpg
-is1.jpg
-is2.jpg
-is3.jpg
-is4.png
-is5.png
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hatti 3D-Print</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
+}
+
+header{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+header img{width:100px;}
+
+.products{
+display:flex;
+justify-content:center;
+gap:30px;
+padding:20px;
+flex-wrap:wrap;
+}
+
+.card{
+background:white;
+width:320px;
+max-width:90%;
+padding:20px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+button{
+background:#ff416c;
+color:white;
+border:none;
+padding:12px;
+border-radius:25px;
+margin-top:10px;
+width:100%;
+}
+
+.cart{
+background:white;
+margin:30px auto;
+padding:20px;
+width:95%;
+max-width:600px;
+border-radius:15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<img src="logo.png">
+<h1>Hatti 3D-Print</h1>
+<p><strong>Alle produkter printes på bestilling</strong></p>
+</header>
+
+<div class="products">
+
+<div class="card">
+<img src="pokemon.jpg">
+<h2>Pokemon Kortboks</h2>
+<p><strong>399 kr</strong></p>
+</div>
+
+<div class="card">
+<img src="is1.jpg">
+<h2>Isbeger Holder</h2>
+<p><strong>799 kr</strong></p>
+</div>
+
+</div>
+
+</body>
+</html>
