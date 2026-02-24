@@ -58,7 +58,7 @@ input{width:100%;padding:10px;margin:6px 0;}
 
 <!-- IS -->
 <div class="card">
-<img id="isImage" src="is1.jpg" onclick="openGallery('is')">
+<img id="isImage" src="20260222_143805.jpg" onclick="openGallery('is')">
 <h2>Isbeger Holder</h2>
 
 <p>
@@ -91,11 +91,8 @@ input{width:100%;padding:10px;margin:6px 0;}
 <input type="text" id="phone" placeholder="Telefonnummer">
 
 <div class="warning">
-Når du trykker <b>"Fullfør bestilling"</b> åpnes e-postprogrammet ditt automatisk med ferdig utfylt bestilling.<br><br>
-<b>Bestillingen er ikke registrert før:</b><br>
-1. E-posten er sendt<br>
-2. Vipps betaling er mottatt<br>
-3. Ordrenummer er skrevet i Vipps-kommentarfeltet<br><br>
+Når du trykker <b>"Fullfør bestilling"</b> åpnes e-postprogrammet automatisk.<br><br>
+Bestillingen er ikke registrert før e-post er sendt og Vipps er betalt.<br><br>
 Vipps: <b>48093344</b>
 </div>
 
@@ -107,12 +104,18 @@ Vipps: <b>48093344</b>
 <div class="thankyou" id="thankYouPage">
 <h2>🎉 Takk for bestillingen!</h2>
 <p id="orderNumberDisplay"></p>
-<p>
-1. Send e-posten<br>
-2. Betal med Vipps til <b>48093344</b><br>
-3. Skriv ordrenummeret i kommentarfeltet
-</p>
+<p>Send e-posten og betal med Vipps (48093344). Husk ordrenummer i kommentarfeltet.</p>
 <button onclick="location.reload()">Tilbake til butikken</button>
+</div>
+
+<div class="modal" id="galleryModal">
+<div class="modal-content">
+<span class="close" onclick="closeGallery()">✖</span>
+<img id="galleryImage">
+<br><br>
+<button onclick="prevImage()">Forrige</button>
+<button onclick="nextImage()">Neste</button>
+</div>
 </div>
 
 <script>
@@ -127,26 +130,22 @@ function addIs(){
 let v=document.getElementById("isVariant").value;
 addToCart("Isbeger Holder - "+v,599);
 }
-
 function addToCart(name,price){
 cart.push({name,price});
 total+=price;
 renderCart();
 }
-
 function renderCart(){
 let div=document.getElementById("cartItems");
 div.innerHTML="";
 cart.forEach((item,i)=>{
-div.innerHTML+=`
-<div class="cart-item">
+div.innerHTML+=`<div class="cart-item">
 ${item.name} - ${item.price} kr
 <button class="remove" onclick="removeItem(${i})">X</button>
 </div>`;
 });
 document.getElementById("total").innerText=total;
 }
-
 function removeItem(i){
 total-=cart[i].price;
 cart.splice(i,1);
@@ -155,13 +154,38 @@ renderCart();
 
 function changePokemonImage(){
 let v=document.getElementById("pokemonVariant").value;
-document.getElementById("pokemonImage").src=v==="Rød"?"pokemon.jpg":"pokemon2.jpg";
+document.getElementById("pokemonImage").src=
+v==="Rød"?"pokemon.jpg":"20260221_193610.jpg";
 }
-
 function changeIsImage(){
 let v=document.getElementById("isVariant").value;
-document.getElementById("isImage").src=v==="Highland Cow"?"is1.jpg":"is4.png";
+document.getElementById("isImage").src=
+v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
 }
+
+let currentImages=[];
+let currentIndex=0;
+
+function openGallery(type){
+if(type==="pokemon"){
+let v=document.getElementById("pokemonVariant").value;
+currentImages=v==="Rød"
+?["pokemon.jpg","20260221_193837.jpg"]
+:["20260221_193610.jpg","20260221_193837.jpg"];
+}
+if(type==="is"){
+let v=document.getElementById("isVariant").value;
+currentImages=v==="Highland Cow"
+?["20260222_143805.jpg","is1.jpg","is2.jpg","is3.jpg"]
+:["is4.png","is5.png"];
+}
+currentIndex=0;
+document.getElementById("galleryImage").src=currentImages[0];
+document.getElementById("galleryModal").style.display="flex";
+}
+function closeGallery(){document.getElementById("galleryModal").style.display="none";}
+function nextImage(){currentIndex=(currentIndex+1)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
+function prevImage(){currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
 
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
@@ -194,11 +218,10 @@ let mailBody=
 "Adresse: "+address+"%0D%0A"+
 "Postnummer: "+postcode+"%0D%0A"+
 "Poststed: "+city+"%0D%0A"+
-"Telefon: "+phone+"%0D%0A%0D%0A"+
-"Vipps: 48093344%0D%0AHusk å skrive ordrenummer i Vipps-kommentar.";
+"Telefon: "+phone;
 
 window.location.href=
-"mailto:hj.1994@hotmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
+"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
 
 cart=[];
 total=0;
