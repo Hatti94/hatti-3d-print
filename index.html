@@ -116,6 +116,16 @@ Produksjon starter etter mottatt betaling (3–5 virkedager).
 <button onclick="location.reload()">Tilbake til butikken</button>
 </div>
 
+<div class="modal" id="galleryModal">
+<div class="modal-content">
+<span class="close" onclick="closeGallery()">✖</span>
+<img id="galleryImage">
+<br><br>
+<button onclick="prevImage()">Forrige</button>
+<button onclick="nextImage()">Neste</button>
+</div>
+</div>
+
 <script>
 let cart=[];
 let total=0;
@@ -124,6 +134,7 @@ function addPokemon(){
 let v=document.getElementById("pokemonVariant").value;
 addToCart("Pokemon Kortboks - "+v,350);
 }
+
 function addIs(){
 let v=document.getElementById("isVariant").value;
 addToCart("Isbeger Holder - "+v,599);
@@ -157,13 +168,50 @@ renderCart();
 function changePokemonImage(){
 let v=document.getElementById("pokemonVariant").value;
 document.getElementById("pokemonImage").src=
-v==="Rød"?"pokemon.jpg":"20260221_193610.jpg";
+v==="Rød"?"pokemon.jpg":"3d-pokemon-boks-blaa.jpg";
 }
 
 function changeIsImage(){
 let v=document.getElementById("isVariant").value;
 document.getElementById("isImage").src=
 v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
+}
+
+let currentImages=[];
+let currentIndex=0;
+
+function openGallery(type){
+if(type==="pokemon"){
+let v=document.getElementById("pokemonVariant").value;
+currentImages=v==="Rød"
+?["pokemon.jpg","20260221_193837.jpg"]
+:["3d-pokemon-boks-blaa.jpg","20260221_193837.jpg"];
+}
+
+if(type==="is"){
+let v=document.getElementById("isVariant").value;
+currentImages=v==="Highland Cow"
+?["20260222_143805.jpg","is1.jpg","is2.jpg","is3.jpg"]
+:["is4.png","is5.png"];
+}
+
+currentIndex=0;
+document.getElementById("galleryImage").src=currentImages[0];
+document.getElementById("galleryModal").style.display="flex";
+}
+
+function closeGallery(){
+document.getElementById("galleryModal").style.display="none";
+}
+
+function nextImage(){
+currentIndex=(currentIndex+1)%currentImages.length;
+document.getElementById("galleryImage").src=currentImages[currentIndex];
+}
+
+function prevImage(){
+currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
+document.getElementById("galleryImage").src=currentImages[currentIndex];
 }
 
 function checkout(){
