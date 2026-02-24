@@ -36,6 +36,7 @@ input{width:100%;padding:10px;margin:6px 0;}
 <img src="logo.png">
 <h1>Hatti 3D-Print</h1>
 <p><strong>Alle produkter printes på bestilling</strong></p>
+<p>Produksjonstid: 3–5 virkedager</p>
 </header>
 
 <div id="shopContent">
@@ -104,18 +105,15 @@ Vipps: <b>48093344</b>
 <div class="thankyou" id="thankYouPage">
 <h2>🎉 Takk for bestillingen!</h2>
 <p id="orderNumberDisplay"></p>
-<p>Send e-posten og betal med Vipps (48093344). Husk ordrenummer i kommentarfeltet.</p>
-<button onclick="location.reload()">Tilbake til butikken</button>
-</div>
 
-<div class="modal" id="galleryModal">
-<div class="modal-content">
-<span class="close" onclick="closeGallery()">✖</span>
-<img id="galleryImage">
-<br><br>
-<button onclick="prevImage()">Forrige</button>
-<button onclick="nextImage()">Neste</button>
-</div>
+<p>
+Send e-posten som åpnes nå.<br>
+Betal med Vipps til <b>48093344</b>.<br>
+Skriv ordrenummeret i kommentarfeltet.<br><br>
+Produksjon starter etter mottatt betaling (3–5 virkedager).
+</p>
+
+<button onclick="location.reload()">Tilbake til butikken</button>
 </div>
 
 <script>
@@ -130,22 +128,26 @@ function addIs(){
 let v=document.getElementById("isVariant").value;
 addToCart("Isbeger Holder - "+v,599);
 }
+
 function addToCart(name,price){
 cart.push({name,price});
 total+=price;
 renderCart();
 }
+
 function renderCart(){
 let div=document.getElementById("cartItems");
 div.innerHTML="";
 cart.forEach((item,i)=>{
-div.innerHTML+=`<div class="cart-item">
+div.innerHTML+=`
+<div class="cart-item">
 ${item.name} - ${item.price} kr
 <button class="remove" onclick="removeItem(${i})">X</button>
 </div>`;
 });
 document.getElementById("total").innerText=total;
 }
+
 function removeItem(i){
 total-=cart[i].price;
 cart.splice(i,1);
@@ -157,35 +159,12 @@ let v=document.getElementById("pokemonVariant").value;
 document.getElementById("pokemonImage").src=
 v==="Rød"?"pokemon.jpg":"20260221_193610.jpg";
 }
+
 function changeIsImage(){
 let v=document.getElementById("isVariant").value;
 document.getElementById("isImage").src=
 v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
 }
-
-let currentImages=[];
-let currentIndex=0;
-
-function openGallery(type){
-if(type==="pokemon"){
-let v=document.getElementById("pokemonVariant").value;
-currentImages=v==="Rød"
-?["pokemon.jpg","20260221_193837.jpg"]
-:["20260221_193610.jpg","20260221_193837.jpg"];
-}
-if(type==="is"){
-let v=document.getElementById("isVariant").value;
-currentImages=v==="Highland Cow"
-?["20260222_143805.jpg","is1.jpg","is2.jpg","is3.jpg"]
-:["is4.png","is5.png"];
-}
-currentIndex=0;
-document.getElementById("galleryImage").src=currentImages[0];
-document.getElementById("galleryModal").style.display="flex";
-}
-function closeGallery(){document.getElementById("galleryModal").style.display="none";}
-function nextImage(){currentIndex=(currentIndex+1)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
-function prevImage(){currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;document.getElementById("galleryImage").src=currentImages[currentIndex];}
 
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
