@@ -43,7 +43,6 @@ input{width:100%;padding:10px;margin:6px 0;}
 
 <div class="products">
 
-<!-- POKEMON -->
 <div class="card">
 <img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
 <h2>Pokemon Kortboks</h2>
@@ -57,7 +56,6 @@ input{width:100%;padding:10px;margin:6px 0;}
 <button onclick="addPokemon()">Legg i handlekurv</button>
 </div>
 
-<!-- IS -->
 <div class="card">
 <img id="isImage" src="20260222_143805.jpg" onclick="openGallery('is')">
 <h2>Isbeger Holder</h2>
@@ -105,25 +103,13 @@ Vipps: <b>48093344</b>
 <div class="thankyou" id="thankYouPage">
 <h2>🎉 Takk for bestillingen!</h2>
 <p id="orderNumberDisplay"></p>
-
 <p>
 Send e-posten som åpnes nå.<br>
 Betal med Vipps til <b>48093344</b>.<br>
 Skriv ordrenummeret i kommentarfeltet.<br><br>
 Produksjon starter etter mottatt betaling (3–5 virkedager).
 </p>
-
 <button onclick="location.reload()">Tilbake til butikken</button>
-</div>
-
-<div class="modal" id="galleryModal">
-<div class="modal-content">
-<span class="close" onclick="closeGallery()">✖</span>
-<img id="galleryImage">
-<br><br>
-<button onclick="prevImage()">Forrige</button>
-<button onclick="nextImage()">Neste</button>
-</div>
 </div>
 
 <script>
@@ -177,43 +163,6 @@ document.getElementById("isImage").src=
 v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
 }
 
-let currentImages=[];
-let currentIndex=0;
-
-function openGallery(type){
-if(type==="pokemon"){
-let v=document.getElementById("pokemonVariant").value;
-currentImages=v==="Rød"
-?["pokemon.jpg","20260221_193837.jpg"]
-:["3d-pokemon-boks-blaa.jpg","20260221_193837.jpg"];
-}
-
-if(type==="is"){
-let v=document.getElementById("isVariant").value;
-currentImages=v==="Highland Cow"
-?["20260222_143805.jpg","is1.jpg","is2.jpg","is3.jpg"]
-:["is4.png","is5.png"];
-}
-
-currentIndex=0;
-document.getElementById("galleryImage").src=currentImages[0];
-document.getElementById("galleryModal").style.display="flex";
-}
-
-function closeGallery(){
-document.getElementById("galleryModal").style.display="none";
-}
-
-function nextImage(){
-currentIndex=(currentIndex+1)%currentImages.length;
-document.getElementById("galleryImage").src=currentImages[currentIndex];
-}
-
-function prevImage(){
-currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
-document.getElementById("galleryImage").src=currentImages[currentIndex];
-}
-
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
 
@@ -234,21 +183,24 @@ document.getElementById("orderNumberDisplay").innerHTML="<b>Ordrenummer:</b> "+o
 document.getElementById("shopContent").style.display="none";
 document.getElementById("thankYouPage").style.display="block";
 
-let items=cart.map(i=>i.name+" - "+i.price+" kr").join("%0D%0A");
+let items=cart.map(i=>i.name+" - "+i.price+" kr").join("\n");
 
-let mailBody=
-"Ordrenummer: "+orderNumber+"%0D%0A%0D%0A"+
-"Produkter:%0D%0A"+items+"%0D%0A%0D%0A"+
-"Total: "+total+" kr%0D%0A%0D%0A"+
-"Kundeinformasjon:%0D%0A"+
-"Navn: "+name+"%0D%0A"+
-"Adresse: "+address+"%0D%0A"+
-"Postnummer: "+postcode+"%0D%0A"+
-"Poststed: "+city+"%0D%0A"+
-"Telefon: "+phone;
+let mailBody =
+"Ordrenummer: "+orderNumber+"\n\n"+
+"Produkter:\n"+items+"\n\n"+
+"Total: "+total+" kr\n\n"+
+"Kundeinformasjon:\n"+
+"Navn: "+name+"\n"+
+"Adresse: "+address+"\n"+
+"Postnummer: "+postcode+"\n"+
+"Poststed: "+city+"\n"+
+"Telefon: "+phone+"\n\n"+
+"Vipps: 48093344";
 
-window.location.href=
-"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+mailBody;
+let encodedBody = encodeURIComponent(mailBody);
+
+window.location.href =
+"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+encodedBody;
 
 cart=[];
 total=0;
