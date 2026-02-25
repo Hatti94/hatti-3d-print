@@ -10,23 +10,17 @@ body{margin:0;font-family:Arial;background:linear-gradient(135deg,#ff416c,#ff4b2
 header{background:#111;color:white;text-align:center;padding:20px;}
 header img{width:100px;}
 .products{display:flex;justify-content:center;gap:20px;padding:20px;flex-wrap:wrap;}
-.card{background:white;width:300px;padding:20px;border-radius:15px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.3);}
-.card img{width:100%;border-radius:10px;cursor:pointer;}
-select{width:100%;padding:8px;margin-top:8px;}
+.card{background:white;width:320px;padding:20px;border-radius:15px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.3);}
+.card img{width:100%;border-radius:10px;}
+select,input[type=number]{width:100%;padding:8px;margin-top:8px;}
 button{background:#ff416c;color:white;border:none;padding:12px;border-radius:25px;margin-top:10px;width:100%;cursor:pointer;}
 button:hover{background:#ff1f4b;}
-.offer{background:green;color:white;padding:5px;border-radius:8px;font-size:14px;margin-top:5px;display:inline-block;}
-.cart{background:white;margin:30px auto;padding:20px;width:95%;max-width:600px;border-radius:15px;}
-input{width:100%;padding:10px;margin:6px 0;}
+.cart{background:white;margin:30px auto;padding:20px;width:95%;max-width:700px;border-radius:15px;}
 .cart-item{display:flex;justify-content:space-between;margin:5px 0;}
-.remove{background:red;color:white;border:none;padding:4px 8px;border-radius:8px;cursor:pointer;}
+.summary{margin-top:10px;}
 .warning{background:#fff3cd;padding:15px;border-radius:10px;margin-top:10px;font-size:14px;}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;}
-.modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:500px;text-align:center;position:relative;}
-.modal-content img{width:100%;border-radius:10px;}
-.close{position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;}
 .thankyou{display:none;background:white;padding:40px;margin:40px auto;width:90%;max-width:600px;border-radius:20px;text-align:center;}
-@media(max-width:600px){.products{flex-direction:column;align-items:center;}}
+@media(max-width:700px){.products{flex-direction:column;align-items:center;}}
 </style>
 </head>
 
@@ -43,36 +37,56 @@ input{width:100%;padding:10px;margin:6px 0;}
 
 <div class="products">
 
+<!-- POKEMON -->
 <div class="card">
-<img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
+<img src="pokemon.jpg">
 <h2>Pokemon Kortboks</h2>
-<p><strong style="font-size:20px;">350 kr</strong></p>
-
-<select id="pokemonVariant" onchange="changePokemonImage()">
+<p><strong>350 kr</strong></p>
+<p>
+Praktisk og solid oppbevaring for Pokémon-kort.
+Holder kortene beskyttet mot støv og skader.
+Gjør det enklere å organisere og lagre samlingen din.
+</p>
+<select id="pokemonVariant">
 <option value="Rød">Rød topplokk</option>
 <option value="Blå">Blå topplokk</option>
 </select>
-
 <button onclick="addPokemon()">Legg i handlekurv</button>
 </div>
 
+<!-- IS -->
 <div class="card">
-<img id="isImage" src="20260222_143805.jpg" onclick="openGallery('is')">
+<img src="mummihovedbilde.jpeg" style="display:none">
+<img src="20260222_143805.jpg">
 <h2>Isbeger Holder</h2>
-
+<p><strong>599 kr</strong></p>
 <p>
-<span style="text-decoration:line-through;color:gray;">799 kr</span>
-<strong style="color:red;font-size:20px;"> 599 kr</strong>
+Holder isen kjøligere lenger i romtemperatur.
+Du slipper å holde direkte på det kalde begeret.
+Utrolig søt og dekorativ – perfekt både inne og ute.
+Se smeltetest-bilder etter 15, 30, 45 og 60 minutter.
 </p>
-
-<div class="offer">🔥 Tilbud!</div>
-
-<select id="isVariant" onchange="changeIsImage()">
+<select id="isVariant">
 <option value="Highland Cow">Highland Cow</option>
 <option value="Panda">Panda</option>
 </select>
-
 <button onclick="addIs()">Legg i handlekurv</button>
+</div>
+
+<!-- MUMMI -->
+<div class="card">
+<img src="mummihovedbilde.jpeg">
+<h2>Mummikopp Stablere</h2>
+<p><strong>20 kr stk</strong></p>
+<p>
+Smart løsning for å stable Mummikopper uten at de faller ned i hverandre.
+Beskytter koppene – spesielt viktig for samlere og videresalg.
+Gir penere og mer ryddig presentasjon.
+Flotte motiver fra Mummidalen.
+</p>
+
+<input type="number" id="mummiQty" min="1" value="1">
+<button onclick="addMummi()">Legg i handlekurv</button>
 </div>
 
 </div>
@@ -80,7 +94,12 @@ input{width:100%;padding:10px;margin:6px 0;}
 <div class="cart">
 <h2>Handlekurv</h2>
 <div id="cartItems"></div>
+
+<div class="summary">
+<p>Varer: <strong><span id="subtotal">0</span> kr</strong></p>
+<p>Frakt: <strong><span id="shipping">0</span> kr</strong></p>
 <p><strong>Total: <span id="total">0</span> kr</strong></p>
+</div>
 
 <h3>Kundeinformasjon</h3>
 <input type="text" id="name" placeholder="Navn">
@@ -90,8 +109,11 @@ input{width:100%;padding:10px;margin:6px 0;}
 <input type="text" id="phone" placeholder="Telefonnummer">
 
 <div class="warning">
-Når du trykker <b>"Fullfør bestilling"</b> åpnes e-postprogrammet automatisk.<br><br>
-Bestillingen er ikke registrert før e-post er sendt og Vipps er betalt.<br><br>
+Bestillingen er ikke registrert før:
+<br>✔ E-post er sendt
+<br>✔ Vipps betaling er mottatt
+<br>✔ Ordrenummer er skrevet i Vipps-meldingen
+<br><br>
 Vipps: <b>48093344</b>
 </div>
 
@@ -106,7 +128,7 @@ Vipps: <b>48093344</b>
 <p>
 Send e-posten som åpnes nå.<br>
 Betal med Vipps til <b>48093344</b>.<br>
-Skriv ordrenummeret i kommentarfeltet.<br><br>
+<b>Husk å skrive ordrenummeret i Vipps-meldingen.</b><br><br>
 Produksjon starter etter mottatt betaling (3–5 virkedager).
 </p>
 <button onclick="location.reload()">Tilbake til butikken</button>
@@ -114,21 +136,43 @@ Produksjon starter etter mottatt betaling (3–5 virkedager).
 
 <script>
 let cart=[];
-let total=0;
+let subtotal=0;
+let shipping=0;
+
+function calculateShipping(){
+shipping = subtotal >= 1000 ? 0 : (subtotal > 0 ? 90 : 0);
+}
+
+function updateTotals(){
+calculateShipping();
+document.getElementById("subtotal").innerText=subtotal;
+document.getElementById("shipping").innerText=shipping;
+document.getElementById("total").innerText=subtotal+shipping;
+}
 
 function addPokemon(){
 let v=document.getElementById("pokemonVariant").value;
-addToCart("Pokemon Kortboks - "+v,350);
+cart.push({name:"Pokemon Kortboks - "+v,price:350});
+subtotal+=350;
+renderCart();
 }
 
 function addIs(){
 let v=document.getElementById("isVariant").value;
-addToCart("Isbeger Holder - "+v,599);
+cart.push({name:"Isbeger Holder - "+v,price:599});
+subtotal+=599;
+renderCart();
 }
 
-function addToCart(name,price){
-cart.push({name,price});
-total+=price;
+function addMummi(){
+let qty=parseInt(document.getElementById("mummiQty").value);
+if(qty<1)return;
+
+let pricePer=qty>=10?15:20;
+let totalPrice=pricePer*qty;
+
+cart.push({name:"Mummikopp Stablere x"+qty+" ("+pricePer+" kr stk)",price:totalPrice});
+subtotal+=totalPrice;
 renderCart();
 }
 
@@ -136,31 +180,9 @@ function renderCart(){
 let div=document.getElementById("cartItems");
 div.innerHTML="";
 cart.forEach((item,i)=>{
-div.innerHTML+=`
-<div class="cart-item">
-${item.name} - ${item.price} kr
-<button class="remove" onclick="removeItem(${i})">X</button>
-</div>`;
+div.innerHTML+=`<div class="cart-item">${item.name} - ${item.price} kr</div>`;
 });
-document.getElementById("total").innerText=total;
-}
-
-function removeItem(i){
-total-=cart[i].price;
-cart.splice(i,1);
-renderCart();
-}
-
-function changePokemonImage(){
-let v=document.getElementById("pokemonVariant").value;
-document.getElementById("pokemonImage").src=
-v==="Rød"?"pokemon.jpg":"3d-pokemon-boks-blaa.jpg";
-}
-
-function changeIsImage(){
-let v=document.getElementById("isVariant").value;
-document.getElementById("isImage").src=
-v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
+updateTotals();
 }
 
 function checkout(){
@@ -185,25 +207,23 @@ document.getElementById("thankYouPage").style.display="block";
 
 let items=cart.map(i=>i.name+" - "+i.price+" kr").join("\n");
 
-let mailBody =
+let mailBody=
 "Ordrenummer: "+orderNumber+"\n\n"+
 "Produkter:\n"+items+"\n\n"+
-"Total: "+total+" kr\n\n"+
-"Kundeinformasjon:\n"+
-"Navn: "+name+"\n"+
-"Adresse: "+address+"\n"+
-"Postnummer: "+postcode+"\n"+
-"Poststed: "+city+"\n"+
-"Telefon: "+phone+"\n\n"+
-"Vipps: 48093344";
+"Varer: "+subtotal+" kr\n"+
+"Frakt: "+shipping+" kr\n"+
+"Total: "+(subtotal+shipping)+" kr\n\n"+
+"Kunde:\n"+name+"\n"+address+"\n"+postcode+" "+city+"\n"+phone+"\n\n"+
+"Husk å skrive ordrenummer i Vipps-meldingen.";
 
-let encodedBody = encodeURIComponent(mailBody);
+let encodedBody=encodeURIComponent(mailBody);
 
-window.location.href =
+window.location.href=
 "mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+encodedBody;
 
 cart=[];
-total=0;
+subtotal=0;
+updateTotals();
 }
 </script>
 
