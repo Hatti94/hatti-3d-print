@@ -46,10 +46,7 @@ button:hover{background:#ff1f4b;}
 <img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
 <h2>Pokemon Kortboks</h2>
 <p><strong>350 kr</strong></p>
-<p>
-Solid oppbevaring for Pokémon-kort.
-Beskytter mot støv og skader.
-</p>
+<p>Solid oppbevaring som beskytter kortene mot støv og skader.</p>
 <select id="pokemonVariant" onchange="changePokemonImage()">
 <option value="Rød">Rød topplokk</option>
 <option value="Blå">Blå topplokk</option>
@@ -59,12 +56,13 @@ Beskytter mot støv og skader.
 
 <!-- IS -->
 <div class="card">
-<img id="isImage" src="is1.jpg" onclick="openGallery('is')">
+<img id="isImage" src="20260222_143805.jpg" onclick="openGallery('is')">
 <h2>Isbeger Holder</h2>
 <p><strong>599 kr</strong></p>
 <p>
 Holder isen kjøligere lenger i romtemperatur.
-Slipper å holde det kalde begeret.
+Du slipper å holde det kalde begeret.
+Utrolig søt og dekorativ.
 </p>
 <select id="isVariant" onchange="changeIsImage()">
 <option value="Highland Cow">Highland Cow</option>
@@ -109,9 +107,12 @@ Beskytter koppene og gir penere presentasjon.
 <input type="text" id="phone" placeholder="Telefonnummer">
 
 <div class="warning">
-Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet automatisk.<br><br>
-Bestillingen er ikke registrert før e-post er sendt og Vipps er betalt.<br>
-Husk å skrive ordrenummer i Vipps-meldingen.<br><br>
+Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet automatisk med ferdig utfylt bestilling.<br><br>
+Bestillingen er ikke registrert før:
+<br>✔ E-post er sendt
+<br>✔ Vipps betaling er mottatt
+<br>✔ Ordrenummer er skrevet i Vipps-meldingen
+<br><br>
 Vipps: <b>48093344</b>
 </div>
 
@@ -122,7 +123,11 @@ Vipps: <b>48093344</b>
 <div class="thankyou" id="thankYouPage">
 <h2>🎉 Takk for bestillingen!</h2>
 <p id="orderNumberDisplay"></p>
-<p>Send e-posten og betal med Vipps. Husk ordrenummer.</p>
+<p>
+E-postprogrammet ditt har åpnet automatisk.<br>
+Send e-posten og betal med Vipps.<br>
+<b>Husk å skrive ordrenummer i Vipps-meldingen.</b>
+</p>
 <button onclick="location.reload()">Tilbake</button>
 </div>
 
@@ -142,7 +147,6 @@ let cart=[], subtotal=0, shipping=0, currentImages=[], currentIndex=0;
 function calculateShipping(){ shipping = subtotal>=1000?0:(subtotal>0?90:0); }
 function updateTotals(){
 calculateShipping();
-subtotal=Math.max(0,subtotal);
 document.getElementById("subtotal").innerText=subtotal;
 document.getElementById("shipping").innerText=shipping;
 document.getElementById("total").innerText=subtotal+shipping;
@@ -182,21 +186,30 @@ document.getElementById("pokemonImage").src=v==="Rød"?"pokemon.jpg":"3d-pokemon
 }
 function changeIsImage(){
 let v=document.getElementById("isVariant").value;
-document.getElementById("isImage").src=v==="Highland Cow"?"is1.jpg":"is4.png";
+document.getElementById("isImage").src=v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
 }
 
 function openGallery(type){
-if(type==="pokemon"){ currentImages=["pokemon.jpg","3d-pokemon-boks-blaa.jpg"]; }
+if(type==="pokemon"){
+currentImages=["pokemon.jpg","3d-pokemon-boks-blaa.jpg"];
+}
 if(type==="is"){
 let v=document.getElementById("isVariant").value;
 if(v==="Highland Cow"){
-currentImages=["is1.jpg","is2.jpg","is3.jpg","is15minutter.jpeg","is30minutter.jpeg","is45minutter.jpeg","is60minutter.jpeg"];
+currentImages=[
+"20260222_143805.jpg",
+"is1.jpg","is2.jpg","is3.jpg",
+"is15minutter.jpeg","is30minutter.jpeg","is45minutter.jpeg","is60minutter.jpeg"
+];
 }else{
 currentImages=["is4.png"];
 }
 }
 if(type==="mummi"){
-currentImages=["mummihovedbilde.jpeg","mummi1.jpeg","mummi2.jpeg","mummi3.jpeg","mummi4.jpeg","mummi5.jpeg"];
+currentImages=[
+"mummihovedbilde.jpeg",
+"mummi1.jpeg","mummi2.jpeg","mummi3.jpeg","mummi4.jpeg","mummi5.jpeg"
+];
 }
 currentIndex=0;
 document.getElementById("galleryImage").src=currentImages[0];
@@ -210,11 +223,37 @@ function prevImage(){ currentIndex=(currentIndex-1+currentImages.length)%current
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
 let name=document.getElementById("name").value;
-if(!name){alert("Fyll inn kundeinfo");return;}
+let address=document.getElementById("address").value;
+let postcode=document.getElementById("postcode").value;
+let city=document.getElementById("city").value;
+let phone=document.getElementById("phone").value;
+if(!name||!address||!postcode||!city||!phone){alert("Fyll inn all kundeinformasjon.");return;}
+
 let orderNumber="H3D-"+Math.floor(Math.random()*1000000);
-document.getElementById("orderNumberDisplay").innerHTML="Ordrenummer: "+orderNumber;
+
+document.getElementById("orderNumberDisplay").innerHTML="<b>Ordrenummer:</b> "+orderNumber;
 document.getElementById("shopContent").style.display="none";
 document.getElementById("thankYouPage").style.display="block";
+
+let items=cart.map(i=>i.name+" - "+i.price+" kr").join("\n");
+
+let mailBody=
+"Ordrenummer: "+orderNumber+"\n\n"+
+"Produkter:\n"+items+"\n\n"+
+"Varer: "+subtotal+" kr\n"+
+"Frakt: "+shipping+" kr\n"+
+"Total: "+(subtotal+shipping)+" kr\n\n"+
+"Kunde:\n"+name+"\n"+address+"\n"+postcode+" "+city+"\n"+phone+"\n\n"+
+"Husk å skrive ordrenummer i Vipps-meldingen.";
+
+let encodedBody=encodeURIComponent(mailBody);
+
+window.location.href=
+"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+encodedBody;
+
+cart=[];
+subtotal=0;
+updateTotals();
 }
 </script>
 
