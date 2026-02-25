@@ -21,7 +21,7 @@ button:hover{background:#ff1f4b;}
 .summary{margin-top:10px;}
 .warning{background:#fff3cd;padding:15px;border-radius:10px;margin-top:10px;font-size:14px;}
 .thankyou{display:none;background:white;padding:40px;margin:40px auto;width:90%;max-width:600px;border-radius:20px;text-align:center;}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;}
 .modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:500px;text-align:center;position:relative;}
 .modal-content img{width:100%;border-radius:10px;}
 .close{position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;}
@@ -43,15 +43,14 @@ button:hover{background:#ff1f4b;}
 
 <!-- POKEMON -->
 <div class="card">
-<img src="pokemon.jpg" onclick="openGallery('pokemon')">
+<img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
 <h2>Pokemon Kortboks</h2>
 <p><strong>350 kr</strong></p>
 <p>
 Solid oppbevaring for Pokémon-kort.
 Beskytter mot støv og skader.
-Gjør det enkelt å organisere samlingen.
 </p>
-<select id="pokemonVariant">
+<select id="pokemonVariant" onchange="changePokemonImage()">
 <option value="Rød">Rød topplokk</option>
 <option value="Blå">Blå topplokk</option>
 </select>
@@ -60,15 +59,14 @@ Gjør det enkelt å organisere samlingen.
 
 <!-- IS -->
 <div class="card">
-<img src="20260222_143805.jpg" onclick="openGallery('is')">
+<img id="isImage" src="is1.jpg" onclick="openGallery('is')">
 <h2>Isbeger Holder</h2>
 <p><strong>599 kr</strong></p>
 <p>
 Holder isen kjøligere lenger i romtemperatur.
-Du slipper å holde det kalde begeret.
-Utrolig søt og dekorativ.
+Slipper å holde det kalde begeret.
 </p>
-<select id="isVariant">
+<select id="isVariant" onchange="changeIsImage()">
 <option value="Highland Cow">Highland Cow</option>
 <option value="Panda">Panda</option>
 </select>
@@ -80,20 +78,13 @@ Utrolig søt og dekorativ.
 <img src="mummihovedbilde.jpeg" onclick="openGallery('mummi')">
 <h2>Mummikopp Stablere</h2>
 <p><strong>20 kr stk</strong></p>
-
 <p>
 <b>Passer til 30 cl Mummikopper.</b><br><br>
-
-Smart løsning for å stable Mummikopper uten at de faller ned i hverandre.
-Beskytter koppene mot slitasje – spesielt viktig for samlere og ved videresalg.
-Gir en penere og mer ryddig presentasjon i skap eller på hylle.
-Flotte motiver fra Mummidalen.
+Beskytter koppene og gir penere presentasjon.
 </p>
-
 <p style="background:#e8f5e9;padding:8px;border-radius:8px;font-size:14px;">
-Kjøp <b>10 eller flere</b> og betal kun <b>15 kr per stk</b>.
+10+ stk = 15 kr per stk
 </p>
-
 <input type="number" id="mummiQty" min="1" value="1">
 <button onclick="addMummi()">Legg i handlekurv</button>
 </div>
@@ -105,8 +96,8 @@ Kjøp <b>10 eller flere</b> og betal kun <b>15 kr per stk</b>.
 <div id="cartItems"></div>
 
 <div class="summary">
-<p>Varer: <strong><span id="subtotal">0</span> kr</strong></p>
-<p>Frakt: <strong><span id="shipping">0</span> kr</strong></p>
+<p>Varer: <span id="subtotal">0</span> kr</p>
+<p>Frakt: <span id="shipping">0</span> kr</p>
 <p><strong>Total: <span id="total">0</span> kr</strong></p>
 </div>
 
@@ -118,12 +109,9 @@ Kjøp <b>10 eller flere</b> og betal kun <b>15 kr per stk</b>.
 <input type="text" id="phone" placeholder="Telefonnummer">
 
 <div class="warning">
-Når du trykker <b>"Fullfør bestilling"</b> åpnes e-postprogrammet automatisk.<br><br>
-Bestillingen er ikke registrert før:
-<br>✔ E-post er sendt
-<br>✔ Vipps betaling er mottatt
-<br>✔ Ordrenummer er skrevet i Vipps-meldingen
-<br><br>
+Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet automatisk.<br><br>
+Bestillingen er ikke registrert før e-post er sendt og Vipps er betalt.<br>
+Husk å skrive ordrenummer i Vipps-meldingen.<br><br>
 Vipps: <b>48093344</b>
 </div>
 
@@ -134,12 +122,8 @@ Vipps: <b>48093344</b>
 <div class="thankyou" id="thankYouPage">
 <h2>🎉 Takk for bestillingen!</h2>
 <p id="orderNumberDisplay"></p>
-<p>
-Send e-posten som åpnes nå.<br>
-Betal med Vipps til <b>48093344</b>.<br>
-<b>Husk å skrive ordrenummeret i Vipps-meldingen.</b>
-</p>
-<button onclick="location.reload()">Tilbake til butikken</button>
+<p>Send e-posten og betal med Vipps. Husk ordrenummer.</p>
+<button onclick="location.reload()">Tilbake</button>
 </div>
 
 <div class="modal" id="galleryModal">
@@ -153,18 +137,12 @@ Betal med Vipps til <b>48093344</b>.<br>
 </div>
 
 <script>
-let cart=[];
-let subtotal=0;
-let shipping=0;
-let currentImages=[];
-let currentIndex=0;
+let cart=[], subtotal=0, shipping=0, currentImages=[], currentIndex=0;
 
-function calculateShipping(){
-shipping = subtotal >= 1000 ? 0 : (subtotal > 0 ? 90 : 0);
-}
-
+function calculateShipping(){ shipping = subtotal>=1000?0:(subtotal>0?90:0); }
 function updateTotals(){
 calculateShipping();
+subtotal=Math.max(0,subtotal);
 document.getElementById("subtotal").innerText=subtotal;
 document.getElementById("shipping").innerText=shipping;
 document.getElementById("total").innerText=subtotal+shipping;
@@ -172,127 +150,71 @@ document.getElementById("total").innerText=subtotal+shipping;
 
 function addPokemon(){
 let v=document.getElementById("pokemonVariant").value;
-cart.push({name:"Pokemon Kortboks - "+v,price:350});
-subtotal+=350;
-renderCart();
+cart.push({name:"Pokemon - "+v,price:350});
+subtotal+=350; renderCart();
 }
-
 function addIs(){
 let v=document.getElementById("isVariant").value;
-cart.push({name:"Isbeger Holder - "+v,price:599});
-subtotal+=599;
-renderCart();
+cart.push({name:"Isbeger - "+v,price:599});
+subtotal+=599; renderCart();
 }
-
 function addMummi(){
 let qty=parseInt(document.getElementById("mummiQty").value);
-let pricePer=qty>=10?15:20;
-let totalPrice=pricePer*qty;
-cart.push({name:"Mummikopp Stablere x"+qty+" ("+pricePer+" kr stk)",price:totalPrice});
-subtotal+=totalPrice;
-renderCart();
+let price=qty>=10?15:20;
+let total=qty*price;
+cart.push({name:"Mummi x"+qty,price:total});
+subtotal+=total; renderCart();
 }
 
 function renderCart(){
 let div=document.getElementById("cartItems");
 div.innerHTML="";
 cart.forEach((item,i)=>{
-div.innerHTML+=`
-<div class="cart-item">
-${item.name} - ${item.price} kr
-<button class="remove" onclick="removeItem(${i})">X</button>
-</div>`;
+div.innerHTML+=`<div class="cart-item">${item.name} - ${item.price} kr <button class="remove" onclick="removeItem(${i})">X</button></div>`;
 });
 updateTotals();
 }
+function removeItem(i){ subtotal-=cart[i].price; cart.splice(i,1); renderCart(); }
 
-function removeItem(i){
-subtotal-=cart[i].price;
-cart.splice(i,1);
-renderCart();
+function changePokemonImage(){
+let v=document.getElementById("pokemonVariant").value;
+document.getElementById("pokemonImage").src=v==="Rød"?"pokemon.jpg":"3d-pokemon-boks-blaa.jpg";
+}
+function changeIsImage(){
+let v=document.getElementById("isVariant").value;
+document.getElementById("isImage").src=v==="Highland Cow"?"is1.jpg":"is4.png";
 }
 
 function openGallery(type){
-if(type==="pokemon"){
-currentImages=["pokemon.jpg","3d-pokemon-boks-blaa.jpg"];
-}
+if(type==="pokemon"){ currentImages=["pokemon.jpg","3d-pokemon-boks-blaa.jpg"]; }
 if(type==="is"){
-currentImages=[
-"20260222_143805.jpg",
-"is15minutter.jpeg",
-"is30minutter.jpeg",
-"is45minutter.jpeg",
-"is60minutter.jpeg"
-];
+let v=document.getElementById("isVariant").value;
+if(v==="Highland Cow"){
+currentImages=["is1.jpg","is2.jpg","is3.jpg","is15minutter.jpeg","is30minutter.jpeg","is45minutter.jpeg","is60minutter.jpeg"];
+}else{
+currentImages=["is4.png"];
+}
 }
 if(type==="mummi"){
-currentImages=[
-"mummihovedbilde.jpeg",
-"mummi1.jpeg",
-"mummi2.jpeg",
-"mummi3.jpeg",
-"mummi4.jpeg",
-"mummi5.jpeg"
-];
+currentImages=["mummihovedbilde.jpeg","mummi1.jpeg","mummi2.jpeg","mummi3.jpeg","mummi4.jpeg","mummi5.jpeg"];
 }
 currentIndex=0;
 document.getElementById("galleryImage").src=currentImages[0];
 document.getElementById("galleryModal").style.display="flex";
 }
 
-function closeGallery(){
-document.getElementById("galleryModal").style.display="none";
-}
-
-function nextImage(){
-currentIndex=(currentIndex+1)%currentImages.length;
-document.getElementById("galleryImage").src=currentImages[currentIndex];
-}
-
-function prevImage(){
-currentIndex=(currentIndex-1+currentImages.length)%currentImages.length;
-document.getElementById("galleryImage").src=currentImages[currentIndex];
-}
+function closeGallery(){ document.getElementById("galleryModal").style.display="none"; }
+function nextImage(){ currentIndex=(currentIndex+1)%currentImages.length; document.getElementById("galleryImage").src=currentImages[currentIndex]; }
+function prevImage(){ currentIndex=(currentIndex-1+currentImages.length)%currentImages.length; document.getElementById("galleryImage").src=currentImages[currentIndex]; }
 
 function checkout(){
 if(cart.length===0){alert("Handlekurven er tom!");return;}
-
 let name=document.getElementById("name").value;
-let address=document.getElementById("address").value;
-let postcode=document.getElementById("postcode").value;
-let city=document.getElementById("city").value;
-let phone=document.getElementById("phone").value;
-
-if(!name || !address || !postcode || !city || !phone){
-alert("Fyll inn all kundeinformasjon.");
-return;
-}
-
+if(!name){alert("Fyll inn kundeinfo");return;}
 let orderNumber="H3D-"+Math.floor(Math.random()*1000000);
-
-document.getElementById("orderNumberDisplay").innerHTML="<b>Ordrenummer:</b> "+orderNumber;
+document.getElementById("orderNumberDisplay").innerHTML="Ordrenummer: "+orderNumber;
 document.getElementById("shopContent").style.display="none";
 document.getElementById("thankYouPage").style.display="block";
-
-let items=cart.map(i=>i.name+" - "+i.price+" kr").join("\n");
-
-let mailBody=
-"Ordrenummer: "+orderNumber+"\n\n"+
-"Produkter:\n"+items+"\n\n"+
-"Varer: "+subtotal+" kr\n"+
-"Frakt: "+shipping+" kr\n"+
-"Total: "+(subtotal+shipping)+" kr\n\n"+
-"Kunde:\n"+name+"\n"+address+"\n"+postcode+" "+city+"\n"+phone+"\n\n"+
-"Husk å skrive ordrenummer i Vipps-meldingen.";
-
-let encodedBody=encodeURIComponent(mailBody);
-
-window.location.href=
-"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+encodedBody;
-
-cart=[];
-subtotal=0;
-updateTotals();
 }
 </script>
 
