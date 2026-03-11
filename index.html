@@ -114,7 +114,7 @@ cursor:pointer;
 <p><b>Alle produkter printes på bestilling</b></p>
 
 <p>
-Når du trykker fullfør bestilling åpnes e-postprogrammet ditt automatisk.
+Når du trykker fullfør bestilling åpnes e-postprogrammet automatisk.
 Send mailen for å registrere bestillingen.
 </p>
 
@@ -270,7 +270,6 @@ let cart=[]
 let total=0
 let orderNumber=Math.floor(Math.random()*90000)+10000
 
-
 function changePokemonImage(){
 
 let type=document.getElementById("pokemonType").value
@@ -282,7 +281,6 @@ document.getElementById("pokemonImg").src="pokemon2.jpg"
 }
 
 }
-
 
 function changeIceImage(){
 
@@ -296,7 +294,6 @@ document.getElementById("iceImg").src="is4.png"
 
 }
 
-
 function addToCart(name,price,variant){
 
 let v=""
@@ -305,7 +302,10 @@ if(variant){
 v=" ("+document.getElementById(variant).value+")"
 }
 
-cart.push(name+v)
+cart.push({
+name:name+v,
+price:price
+})
 
 total+=price
 
@@ -313,6 +313,28 @@ updateCart()
 
 }
 
+function addMummi(){
+
+let qty=parseInt(document.getElementById("mummiQty").value)
+
+let price=20
+
+if(qty>=10){
+price=15
+}
+
+let totalPrice=qty*price
+
+cart.push({
+name:"Mummikopp Stabler x"+qty,
+price:totalPrice
+})
+
+total+=totalPrice
+
+updateCart()
+
+}
 
 function updateCart(){
 
@@ -324,7 +346,7 @@ cart.forEach((item,i)=>{
 
 let li=document.createElement("li")
 
-li.innerHTML=item+" <button onclick='removeItem("+i+")'>X</button>"
+li.innerHTML=item.name+" - "+item.price+" kr <button onclick='removeItem("+i+")'>X</button>"
 
 list.appendChild(li)
 
@@ -337,15 +359,15 @@ document.getElementById("total").innerHTML=
 
 }
 
-
 function removeItem(i){
+
+total -= cart[i].price
 
 cart.splice(i,1)
 
 updateCart()
 
 }
-
 
 function checkout(){
 
@@ -359,7 +381,7 @@ let body="Ordrenummer: "+orderNumber+"\n\n"
 
 body+="Produkter:\n"
 
-cart.forEach(p=>body+=p+"\n")
+cart.forEach(p=>body+=p.name+"\n")
 
 body+="\nKundeinformasjon:\n"
 
@@ -373,7 +395,6 @@ window.location.href=
 "mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
 
 }
-
 
 let images=[]
 let index=0
