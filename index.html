@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Hatti 3D Print</title>
 
 <style>
 
 body{
-font-family:Arial;
 margin:0;
+font-family:Arial;
 background:linear-gradient(135deg,#ff416c,#ff4b2b);
 }
 
@@ -35,11 +34,11 @@ padding:20px;
 
 .card{
 background:white;
-padding:15px;
 width:300px;
+padding:15px;
 border-radius:12px;
-box-shadow:0 6px 20px rgba(0,0,0,0.25);
 text-align:center;
+box-shadow:0 6px 20px rgba(0,0,0,0.25);
 }
 
 .card img{
@@ -57,7 +56,6 @@ border-radius:25px;
 margin-top:10px;
 width:100%;
 cursor:pointer;
-font-size:15px;
 }
 
 button:hover{
@@ -83,18 +81,11 @@ background:rgba(0,0,0,0.9);
 justify-content:center;
 align-items:center;
 flex-direction:column;
-z-index:999;
 }
 
 .gallery img{
 max-width:90%;
 max-height:70%;
-border-radius:10px;
-}
-
-.gallery button{
-width:auto;
-margin:10px;
 }
 
 .close{
@@ -120,19 +111,18 @@ cursor:pointer;
 <p><b>Alle produkter printes på bestilling</b></p>
 
 <p>
-Når du fullfører bestilling åpnes e-postprogrammet ditt automatisk
-med ferdig utfylt bestilling.  
-Trykk bare <b>send</b> for å fullføre bestillingen.
+Når du fullfører bestilling åpnes e-postprogrammet automatisk.
+Send mailen for å fullføre bestillingen.
 </p>
 
 <p>
-Betaling skjer via Vipps til: <b>48093344</b>  
-Husk å skrive <b>ordrenummer i Vipps-meldingen</b>.
+Betaling via Vipps: <b>48093344</b><br>
+Husk å skrive <b>ordrenummer i Vipps-meldingen</b>
 </p>
 
 <p>
-Frakt: <b>90 kr</b>  
-Gratis frakt på bestillinger over <b>1000 kr</b>.
+Frakt: <b>90 kr</b><br>
+Gratis frakt over <b>1000 kr</b>
 </p>
 
 </header>
@@ -140,6 +130,7 @@ Gratis frakt på bestillinger over <b>1000 kr</b>.
 <div class="products">
 
 <!-- POKEMON -->
+
 <div class="card">
 
 <img src="pokemon.jpg" onclick="openGallery(['pokemon.jpg','pokemon2.jpg'])">
@@ -147,9 +138,7 @@ Gratis frakt på bestillinger over <b>1000 kr</b>.
 <h2>Pokemon Kortboks</h2>
 
 <p>
-Holder Pokemonkortene dine trygge og organiserte.
-Perfekt for samlere som ønsker trygg oppbevaring
-og enkel lagring av kort.
+Holder kortene beskyttet og gjør lagring enklere.
 </p>
 
 <p><b>350 kr</b></p>
@@ -167,17 +156,17 @@ Legg i handlekurv
 
 
 <!-- ISBEGER -->
+
 <div class="card">
 
-<img src="20260222_143805.jpg" onclick="openGallery(['20260222_143805.jpg','is1.jpg','is2.jpg','is3.jpg','is4.png','is5.png','is15minutter.jpeg','is30minutter.jpeg','is45minutter.jpeg','is60minutter.jpeg'])">
+<img src="20260222_143805.jpg"
+onclick="openGallery(['20260222_143805.jpg','is1.jpg','is2.jpg','is3.jpg','is4.png','is5.png','is15minutter.jpeg','is30minutter.jpeg','is45minutter.jpeg','is60minutter.jpeg'])">
 
 <h2>Isbeger Holder</h2>
 
 <p>
-Holder isen kald lengre i romtemperatur
-og gjør at du slipper å holde direkte på det kalde begeret.
-
-Men viktigst av alt — den er utrolig søt.
+Holder isen kjøligere lenger og gjør at du slipper
+å holde direkte på det kalde begeret.
 </p>
 
 <p><b>599 kr</b></p>
@@ -195,18 +184,17 @@ Legg i handlekurv
 
 
 <!-- MUMMI -->
+
 <div class="card">
 
-<img src="mummihovedbilde.jpeg" onclick="openGallery(['mummihovedbilde.jpeg','mummi1.jpeg','mummi2.jpeg','mummi3.jpeg','mummi4.jpeg','mummi5.jpeg'])">
+<img src="mummihovedbilde.jpeg"
+onclick="openGallery(['mummihovedbilde.jpeg','mummi1.jpeg','mummi2.jpeg','mummi3.jpeg','mummi4.jpeg','mummi5.jpeg'])">
 
 <h2>Mummikopp Stabler</h2>
 
 <p>
-Stablelokk til Mummikopper (30cl).
-Gjør at koppene ikke faller nedi hverandre
-og beskytter samlekopper.
-
-Ser også penere ut i hylla.
+Stable Mummikopper uten at de faller nedi hverandre.
+Passer til 30cl kopper.
 </p>
 
 <p>
@@ -221,21 +209,21 @@ Legg i handlekurv
 </div>
 
 
-<!-- NYTT PRODUKT -->
+<!-- PÅSKEPYNT -->
+
 <div class="card">
 
-<img src="25151.jpg" onclick="openGallery(['25151.jpg','25152.jpg','25153.jpg'])">
+<img src="25151.jpg"
+onclick="openGallery(['25151.jpg','25152.jpg','25153.jpg'])">
 
 <h2>Moderne Påskepynt</h2>
 
 <p>
-Sett med tre moderne kaniner
-som passer perfekt som påskepynt.
+Sett med tre moderne kaniner.
 
-Størrelser:
-<br>10 cm
-<br>14 cm
-<br>17 cm
+<br>Liten: 10 cm
+<br>Mellom: 14 cm
+<br>Stor: 17 cm
 </p>
 
 <p><b>150 kr</b></p>
@@ -272,13 +260,8 @@ Legg i handlekurv
 
 <img id="galleryImg">
 
-<div>
-
 <button onclick="prev()">Forrige</button>
-
 <button onclick="next()">Neste</button>
-
-</div>
 
 </div>
 
@@ -308,7 +291,6 @@ updateCart()
 function updateCart(){
 
 let list=document.getElementById("cart")
-
 list.innerHTML=""
 
 cart.forEach((item,i)=>{
@@ -330,8 +312,6 @@ document.getElementById("total").innerHTML=
 
 function removeItem(i){
 
-total-=cart[i].includes("Mummikopp")?20:0
-
 cart.splice(i,1)
 
 updateCart()
@@ -340,13 +320,25 @@ updateCart()
 
 function checkout(){
 
+let navn=prompt("Navn")
+let adresse=prompt("Adresse")
+let postnr=prompt("Postnummer")
+let poststed=prompt("Poststed")
+let telefon=prompt("Telefon")
+
 let body="Ordrenummer: "+orderNumber+"\n\n"
 
 body+="Produkter:\n"
 
 cart.forEach(p=>body+=p+"\n")
 
-body+="\nNavn:\nAdresse:\nPostnummer:\nPoststed:\nTelefon:\n"
+body+="\nKundeinformasjon:\n"
+
+body+="Navn: "+navn+"\n"
+body+="Adresse: "+adresse+"\n"
+body+="Postnummer: "+postnr+"\n"
+body+="Poststed: "+poststed+"\n"
+body+="Telefon: "+telefon+"\n"
 
 window.location.href=
 "mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
@@ -359,7 +351,6 @@ let index=0
 function openGallery(arr){
 
 images=arr
-
 index=0
 
 document.getElementById("galleryImg").src=images[index]
@@ -369,15 +360,12 @@ document.getElementById("gallery").style.display="flex"
 }
 
 function closeGallery(){
-
 document.getElementById("gallery").style.display="none"
-
 }
 
 function next(){
 
 index=(index+1)%images.length
-
 document.getElementById("galleryImg").src=images[index]
 
 }
@@ -385,7 +373,6 @@ document.getElementById("galleryImg").src=images[index]
 function prev(){
 
 index=(index-1+images.length)%images.length
-
 document.getElementById("galleryImg").src=images[index]
 
 }
