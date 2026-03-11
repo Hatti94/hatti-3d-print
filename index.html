@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Hatti 3D Print</title>
 
 <style>
@@ -58,16 +59,18 @@ width:100%;
 cursor:pointer;
 }
 
-button:hover{
-background:#e7335f;
-}
-
 .cart{
 background:white;
 max-width:600px;
 margin:30px auto;
 padding:20px;
 border-radius:12px;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:8px;
 }
 
 .gallery{
@@ -111,21 +114,22 @@ cursor:pointer;
 <p><b>Alle produkter printes på bestilling</b></p>
 
 <p>
-Når du fullfører bestilling åpnes e-postprogrammet automatisk.
-Send mailen for å fullføre bestillingen.
+Når du trykker fullfør bestilling åpnes e-postprogrammet ditt automatisk.
+Send mailen for å registrere bestillingen.
 </p>
 
 <p>
-Betaling via Vipps: <b>48093344</b><br>
-Husk å skrive <b>ordrenummer i Vipps-meldingen</b>
+Vipps: <b>48093344</b><br>
+Husk å skrive ordrenummer i Vipps-meldingen
 </p>
 
 <p>
-Frakt: <b>90 kr</b><br>
-Gratis frakt over <b>1000 kr</b>
+Frakt: 90 kr<br>
+Gratis frakt over 1000 kr
 </p>
 
 </header>
+
 
 <div class="products">
 
@@ -133,19 +137,16 @@ Gratis frakt over <b>1000 kr</b>
 
 <div class="card">
 
-<img src="pokemon.jpg" onclick="openGallery(['pokemon.jpg','pokemon2.jpg'])">
+<img id="pokemonImg" src="pokemon.jpg"
+onclick="openGallery(['pokemon.jpg','pokemon2.jpg'])">
 
 <h2>Pokemon Kortboks</h2>
 
-<p>
-Holder kortene beskyttet og gjør lagring enklere.
-</p>
-
 <p><b>350 kr</b></p>
 
-<select id="pokemonType">
-<option value="Rød topp">Rød topp</option>
-<option value="Blå topp">Blå topp</option>
+<select id="pokemonType" onchange="changePokemonImage()">
+<option value="red">Rød topp</option>
+<option value="blue">Blå topp</option>
 </select>
 
 <button onclick="addToCart('Pokemon Kortboks',350,'pokemonType')">
@@ -159,21 +160,16 @@ Legg i handlekurv
 
 <div class="card">
 
-<img src="20260222_143805.jpg"
+<img id="iceImg" src="20260222_143805.jpg"
 onclick="openGallery(['20260222_143805.jpg','is1.jpg','is2.jpg','is3.jpg','is4.png','is5.png','is15minutter.jpeg','is30minutter.jpeg','is45minutter.jpeg','is60minutter.jpeg'])">
 
 <h2>Isbeger Holder</h2>
 
-<p>
-Holder isen kjøligere lenger og gjør at du slipper
-å holde direkte på det kalde begeret.
-</p>
-
 <p><b>599 kr</b></p>
 
-<select id="iceType">
-<option value="Highland Cow">Highland Cow</option>
-<option value="Panda">Panda</option>
+<select id="iceType" onchange="changeIceImage()">
+<option value="cow">Highland Cow</option>
+<option value="panda">Panda</option>
 </select>
 
 <button onclick="addToCart('Isbeger Holder',599,'iceType')">
@@ -193,13 +189,8 @@ onclick="openGallery(['mummihovedbilde.jpeg','mummi1.jpeg','mummi2.jpeg','mummi3
 <h2>Mummikopp Stabler</h2>
 
 <p>
-Stable Mummikopper uten at de faller nedi hverandre.
-Passer til 30cl kopper.
-</p>
-
-<p>
-<b>20 kr stk</b><br>
-<b>15 kr stk ved kjøp av 10+</b>
+20 kr stk<br>
+15 kr stk ved kjøp av 10+
 </p>
 
 <button onclick="addToCart('Mummikopp Stabler',20)">
@@ -219,11 +210,8 @@ onclick="openGallery(['25151.jpg','25152.jpg','25153.jpg'])">
 <h2>Moderne Påskepynt</h2>
 
 <p>
-Sett med tre moderne kaniner.
-
-<br>Liten: 10 cm
-<br>Mellom: 14 cm
-<br>Stor: 17 cm
+Sett med 3 kaniner<br>
+10 cm – 14 cm – 17 cm
 </p>
 
 <p><b>150 kr</b></p>
@@ -246,6 +234,14 @@ Legg i handlekurv
 <ul id="cart"></ul>
 
 <p id="total"></p>
+
+<h3>Kundeinformasjon</h3>
+
+<input id="name" placeholder="Navn">
+<input id="address" placeholder="Adresse">
+<input id="zip" placeholder="Postnummer">
+<input id="city" placeholder="Poststed">
+<input id="phone" placeholder="Telefonnummer">
 
 <button onclick="checkout()">Fullfør bestilling</button>
 
@@ -272,6 +268,33 @@ let cart=[]
 let total=0
 let orderNumber=Math.floor(Math.random()*90000)+10000
 
+
+function changePokemonImage(){
+
+let type=document.getElementById("pokemonType").value
+
+if(type=="red"){
+document.getElementById("pokemonImg").src="pokemon.jpg"
+}else{
+document.getElementById("pokemonImg").src="pokemon2.jpg"
+}
+
+}
+
+
+function changeIceImage(){
+
+let type=document.getElementById("iceType").value
+
+if(type=="cow"){
+document.getElementById("iceImg").src="20260222_143805.jpg"
+}else{
+document.getElementById("iceImg").src="is4.png"
+}
+
+}
+
+
 function addToCart(name,price,variant){
 
 let v=""
@@ -288,9 +311,11 @@ updateCart()
 
 }
 
+
 function updateCart(){
 
 let list=document.getElementById("cart")
+
 list.innerHTML=""
 
 cart.forEach((item,i)=>{
@@ -310,6 +335,7 @@ document.getElementById("total").innerHTML=
 
 }
 
+
 function removeItem(i){
 
 cart.splice(i,1)
@@ -318,13 +344,14 @@ updateCart()
 
 }
 
+
 function checkout(){
 
-let navn=prompt("Navn")
-let adresse=prompt("Adresse")
-let postnr=prompt("Postnummer")
-let poststed=prompt("Poststed")
-let telefon=prompt("Telefon")
+let name=document.getElementById("name").value
+let address=document.getElementById("address").value
+let zip=document.getElementById("zip").value
+let city=document.getElementById("city").value
+let phone=document.getElementById("phone").value
 
 let body="Ordrenummer: "+orderNumber+"\n\n"
 
@@ -334,16 +361,17 @@ cart.forEach(p=>body+=p+"\n")
 
 body+="\nKundeinformasjon:\n"
 
-body+="Navn: "+navn+"\n"
-body+="Adresse: "+adresse+"\n"
-body+="Postnummer: "+postnr+"\n"
-body+="Poststed: "+poststed+"\n"
-body+="Telefon: "+telefon+"\n"
+body+="Navn: "+name+"\n"
+body+="Adresse: "+address+"\n"
+body+="Postnummer: "+zip+"\n"
+body+="Poststed: "+city+"\n"
+body+="Telefon: "+phone+"\n"
 
 window.location.href=
 "mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
 
 }
+
 
 let images=[]
 let index=0
@@ -364,17 +392,13 @@ document.getElementById("gallery").style.display="none"
 }
 
 function next(){
-
 index=(index+1)%images.length
 document.getElementById("galleryImg").src=images[index]
-
 }
 
 function prev(){
-
 index=(index-1+images.length)%images.length
 document.getElementById("galleryImg").src=images[index]
-
 }
 
 </script>
