@@ -3,258 +3,393 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hatti 3D-Print</title>
+
+<title>Hatti 3D Print</title>
 
 <style>
-body{margin:0;font-family:Arial;background:linear-gradient(135deg,#ff416c,#ff4b2b);}
-header{background:#111;color:white;text-align:center;padding:20px;}
-header img{width:100px;}
-.products{display:flex;justify-content:center;gap:20px;padding:20px;flex-wrap:wrap;}
-.card{background:white;width:320px;padding:20px;border-radius:15px;text-align:center;box-shadow:0 8px 20px rgba(0,0,0,0.3);}
-.card img{width:100%;border-radius:10px;cursor:pointer;}
-select,input[type=number]{width:100%;padding:8px;margin-top:8px;}
-button{background:#ff416c;color:white;border:none;padding:12px;border-radius:25px;margin-top:10px;width:100%;cursor:pointer;}
-button:hover{background:#ff1f4b;}
-.cart{background:white;margin:30px auto;padding:20px;width:95%;max-width:700px;border-radius:15px;}
-.cart-item{display:flex;justify-content:space-between;align-items:center;margin:5px 0;}
-.remove{background:red;color:white;border:none;padding:4px 8px;border-radius:8px;cursor:pointer;}
-.summary{margin-top:10px;}
-.warning{background:#fff3cd;padding:15px;border-radius:10px;margin-top:10px;font-size:14px;}
-.thankyou{display:none;background:white;padding:40px;margin:40px auto;width:90%;max-width:600px;border-radius:20px;text-align:center;}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);justify-content:center;align-items:center;}
-.modal-content{background:white;padding:20px;border-radius:15px;width:90%;max-width:500px;text-align:center;position:relative;}
-.modal-content img{width:100%;border-radius:10px;}
-.close{position:absolute;top:10px;right:15px;font-size:22px;cursor:pointer;}
-@media(max-width:700px){.products{flex-direction:column;align-items:center;}}
+
+body{
+font-family:Arial;
+margin:0;
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
+}
+
+header{
+background:#111;
+color:white;
+text-align:center;
+padding:20px;
+}
+
+header img{
+width:120px;
+}
+
+.products{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:25px;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:15px;
+width:300px;
+border-radius:12px;
+box-shadow:0 6px 20px rgba(0,0,0,0.25);
+text-align:center;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+cursor:pointer;
+}
+
+button{
+background:#ff416c;
+border:none;
+color:white;
+padding:12px;
+border-radius:25px;
+margin-top:10px;
+width:100%;
+cursor:pointer;
+font-size:15px;
+}
+
+button:hover{
+background:#e7335f;
+}
+
+.cart{
+background:white;
+max-width:600px;
+margin:30px auto;
+padding:20px;
+border-radius:12px;
+}
+
+.gallery{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+}
+
+.gallery img{
+max-width:90%;
+max-height:70%;
+border-radius:10px;
+}
+
+.gallery button{
+width:auto;
+margin:10px;
+}
+
+.close{
+position:absolute;
+top:20px;
+right:30px;
+font-size:35px;
+color:white;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
+
 <img src="logo.png">
+
 <h1>Hatti 3D-Print</h1>
-<p><strong>Alle produkter printes på bestilling</strong></p>
-<p>Produksjonstid: 3–5 virkedager</p>
+
+<p><b>Alle produkter printes på bestilling</b></p>
+
+<p>
+Når du fullfører bestilling åpnes e-postprogrammet ditt automatisk
+med ferdig utfylt bestilling.  
+Trykk bare <b>send</b> for å fullføre bestillingen.
+</p>
+
+<p>
+Betaling skjer via Vipps til: <b>48093344</b>  
+Husk å skrive <b>ordrenummer i Vipps-meldingen</b>.
+</p>
+
+<p>
+Frakt: <b>90 kr</b>  
+Gratis frakt på bestillinger over <b>1000 kr</b>.
+</p>
+
 </header>
 
-<div id="shopContent">
 <div class="products">
 
 <!-- POKEMON -->
 <div class="card">
-<img id="pokemonImage" src="pokemon.jpg" onclick="openGallery('pokemon')">
+
+<img src="pokemon.jpg" onclick="openGallery(['pokemon.jpg','pokemon2.jpg'])">
+
 <h2>Pokemon Kortboks</h2>
-<p><strong>350 kr</strong></p>
-<p>Solid oppbevaring som beskytter kortene mot støv og skader.</p>
-<select id="pokemonVariant" onchange="changePokemonImage()">
-<option value="Rød">Rød topplokk</option>
-<option value="Blå">Blå topplokk</option>
+
+<p>
+Holder Pokemonkortene dine trygge og organiserte.
+Perfekt for samlere som ønsker trygg oppbevaring
+og enkel lagring av kort.
+</p>
+
+<p><b>350 kr</b></p>
+
+<select id="pokemonType">
+<option value="Rød topp">Rød topp</option>
+<option value="Blå topp">Blå topp</option>
 </select>
-<button onclick="addPokemon()">Legg i handlekurv</button>
+
+<button onclick="addToCart('Pokemon Kortboks',350,'pokemonType')">
+Legg i handlekurv
+</button>
+
 </div>
 
-<!-- IS -->
+
+<!-- ISBEGER -->
 <div class="card">
-<img id="isImage" src="20260222_143805.jpg" onclick="openGallery('is')">
+
+<img src="20260222_143805.jpg" onclick="openGallery(['20260222_143805.jpg','is1.jpg','is2.jpg','is3.jpg','is4.png','is5.png','is15minutter.jpeg','is30minutter.jpeg','is45minutter.jpeg','is60minutter.jpeg'])">
+
 <h2>Isbeger Holder</h2>
-<p><strong>599 kr</strong></p>
+
 <p>
-Holder isen kjøligere lenger i romtemperatur.
-Du slipper å holde det kalde begeret.
-Utrolig søt og dekorativ.
+Holder isen kald lengre i romtemperatur
+og gjør at du slipper å holde direkte på det kalde begeret.
+
+Men viktigst av alt — den er utrolig søt.
 </p>
-<select id="isVariant" onchange="changeIsImage()">
+
+<p><b>599 kr</b></p>
+
+<select id="iceType">
 <option value="Highland Cow">Highland Cow</option>
 <option value="Panda">Panda</option>
 </select>
-<button onclick="addIs()">Legg i handlekurv</button>
+
+<button onclick="addToCart('Isbeger Holder',599,'iceType')">
+Legg i handlekurv
+</button>
+
 </div>
+
 
 <!-- MUMMI -->
 <div class="card">
-<img src="mummihovedbilde.jpeg" onclick="openGallery('mummi')">
-<h2>Mummikopp Stablere</h2>
-<p><strong>20 kr stk</strong></p>
+
+<img src="mummihovedbilde.jpeg" onclick="openGallery(['mummihovedbilde.jpeg','mummi1.jpeg','mummi2.jpeg','mummi3.jpeg','mummi4.jpeg','mummi5.jpeg'])">
+
+<h2>Mummikopp Stabler</h2>
+
 <p>
-<b>Passer til 30 cl Mummikopper.</b><br><br>
-Beskytter koppene og gir penere presentasjon.
+Stablelokk til Mummikopper (30cl).
+Gjør at koppene ikke faller nedi hverandre
+og beskytter samlekopper.
+
+Ser også penere ut i hylla.
 </p>
-<p style="background:#e8f5e9;padding:8px;border-radius:8px;font-size:14px;">
-10+ stk = 15 kr per stk
+
+<p>
+<b>20 kr stk</b><br>
+<b>15 kr stk ved kjøp av 10+</b>
 </p>
-<input type="number" id="mummiQty" min="1" value="1">
-<button onclick="addMummi()">Legg i handlekurv</button>
+
+<button onclick="addToCart('Mummikopp Stabler',20)">
+Legg i handlekurv
+</button>
+
+</div>
+
+
+<!-- NYTT PRODUKT -->
+<div class="card">
+
+<img src="25151.jpg" onclick="openGallery(['25151.jpg','25152.jpg','25153.jpg'])">
+
+<h2>Moderne Påskepynt</h2>
+
+<p>
+Sett med tre moderne kaniner
+som passer perfekt som påskepynt.
+
+Størrelser:
+<br>10 cm
+<br>14 cm
+<br>17 cm
+</p>
+
+<p><b>150 kr</b></p>
+
+<button onclick="addToCart('Påskepynt Kaninsett',150)">
+Legg i handlekurv
+</button>
+
 </div>
 
 </div>
+
+
+<!-- HANDLEKURV -->
 
 <div class="cart">
+
 <h2>Handlekurv</h2>
-<div id="cartItems"></div>
 
-<div class="summary">
-<p>Varer: <span id="subtotal">0</span> kr</p>
-<p>Frakt: <span id="shipping">0</span> kr</p>
-<p><strong>Total: <span id="total">0</span> kr</strong></p>
-</div>
+<ul id="cart"></ul>
 
-<h3>Kundeinformasjon</h3>
-<input type="text" id="name" placeholder="Navn">
-<input type="text" id="address" placeholder="Adresse">
-<input type="text" id="postcode" placeholder="Postnummer">
-<input type="text" id="city" placeholder="Poststed">
-<input type="text" id="phone" placeholder="Telefonnummer">
-
-<div class="warning">
-Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet automatisk med ferdig utfylt bestilling.<br><br>
-Bestillingen er ikke registrert før:
-<br>✔ E-post er sendt
-<br>✔ Vipps betaling er mottatt
-<br>✔ Ordrenummer er skrevet i Vipps-meldingen
-<br><br>
-Vipps: <b>48093344</b>
-</div>
+<p id="total"></p>
 
 <button onclick="checkout()">Fullfør bestilling</button>
-</div>
+
 </div>
 
-<div class="thankyou" id="thankYouPage">
-<h2>🎉 Takk for bestillingen!</h2>
-<p id="orderNumberDisplay"></p>
-<p>
-E-postprogrammet ditt har åpnet automatisk.<br>
-Send e-posten og betal med Vipps.<br>
-<b>Husk å skrive ordrenummer i Vipps-meldingen.</b>
-</p>
-<button onclick="location.reload()">Tilbake</button>
-</div>
 
-<div class="modal" id="galleryModal">
-<div class="modal-content">
+<!-- GALLERI -->
+
+<div id="gallery" class="gallery">
+
 <span class="close" onclick="closeGallery()">✖</span>
-<img id="galleryImage">
-<br><br>
-<button onclick="prevImage()">Forrige</button>
-<button onclick="nextImage()">Neste</button>
+
+<img id="galleryImg">
+
+<div>
+
+<button onclick="prev()">Forrige</button>
+
+<button onclick="next()">Neste</button>
+
 </div>
+
 </div>
+
 
 <script>
-let cart=[], subtotal=0, shipping=0, currentImages=[], currentIndex=0;
 
-function calculateShipping(){ shipping = subtotal>=1000?0:(subtotal>0?90:0); }
-function updateTotals(){
-calculateShipping();
-document.getElementById("subtotal").innerText=subtotal;
-document.getElementById("shipping").innerText=shipping;
-document.getElementById("total").innerText=subtotal+shipping;
-}
+let cart=[]
+let total=0
+let orderNumber=Math.floor(Math.random()*90000)+10000
 
-function addPokemon(){
-let v=document.getElementById("pokemonVariant").value;
-cart.push({name:"Pokemon - "+v,price:350});
-subtotal+=350; renderCart();
-}
-function addIs(){
-let v=document.getElementById("isVariant").value;
-cart.push({name:"Isbeger - "+v,price:599});
-subtotal+=599; renderCart();
-}
-function addMummi(){
-let qty=parseInt(document.getElementById("mummiQty").value);
-let price=qty>=10?15:20;
-let total=qty*price;
-cart.push({name:"Mummi x"+qty,price:total});
-subtotal+=total; renderCart();
+function addToCart(name,price,variant){
+
+let v=""
+
+if(variant){
+v=" ("+document.getElementById(variant).value+")"
 }
 
-function renderCart(){
-let div=document.getElementById("cartItems");
-div.innerHTML="";
+cart.push(name+v)
+
+total+=price
+
+updateCart()
+
+}
+
+function updateCart(){
+
+let list=document.getElementById("cart")
+
+list.innerHTML=""
+
 cart.forEach((item,i)=>{
-div.innerHTML+=`<div class="cart-item">${item.name} - ${item.price} kr <button class="remove" onclick="removeItem(${i})">X</button></div>`;
-});
-updateTotals();
-}
-function removeItem(i){ subtotal-=cart[i].price; cart.splice(i,1); renderCart(); }
 
-function changePokemonImage(){
-let v=document.getElementById("pokemonVariant").value;
-document.getElementById("pokemonImage").src=v==="Rød"?"pokemon.jpg":"3d-pokemon-boks-blaa.jpg";
-}
-function changeIsImage(){
-let v=document.getElementById("isVariant").value;
-document.getElementById("isImage").src=v==="Highland Cow"?"20260222_143805.jpg":"is4.png";
-}
+let li=document.createElement("li")
 
-function openGallery(type){
-if(type==="pokemon"){
-currentImages=["pokemon.jpg","3d-pokemon-boks-blaa.jpg"];
-}
-if(type==="is"){
-let v=document.getElementById("isVariant").value;
-if(v==="Highland Cow"){
-currentImages=[
-"20260222_143805.jpg",
-"is1.jpg","is2.jpg","is3.jpg",
-"is15minutter.jpeg","is30minutter.jpeg","is45minutter.jpeg","is60minutter.jpeg"
-];
-}else{
-currentImages=["is4.png"];
-}
-}
-if(type==="mummi"){
-currentImages=[
-"mummihovedbilde.jpeg",
-"mummi1.jpeg","mummi2.jpeg","mummi3.jpeg","mummi4.jpeg","mummi5.jpeg"
-];
-}
-currentIndex=0;
-document.getElementById("galleryImage").src=currentImages[0];
-document.getElementById("galleryModal").style.display="flex";
+li.innerHTML=item+" <button onclick='removeItem("+i+")'>X</button>"
+
+list.appendChild(li)
+
+})
+
+let shipping=total>1000?0:90
+
+document.getElementById("total").innerHTML=
+"Sum: "+total+" kr + Frakt: "+shipping+" kr"
+
 }
 
-function closeGallery(){ document.getElementById("galleryModal").style.display="none"; }
-function nextImage(){ currentIndex=(currentIndex+1)%currentImages.length; document.getElementById("galleryImage").src=currentImages[currentIndex]; }
-function prevImage(){ currentIndex=(currentIndex-1+currentImages.length)%currentImages.length; document.getElementById("galleryImage").src=currentImages[currentIndex]; }
+function removeItem(i){
+
+total-=cart[i].includes("Mummikopp")?20:0
+
+cart.splice(i,1)
+
+updateCart()
+
+}
 
 function checkout(){
-if(cart.length===0){alert("Handlekurven er tom!");return;}
-let name=document.getElementById("name").value;
-let address=document.getElementById("address").value;
-let postcode=document.getElementById("postcode").value;
-let city=document.getElementById("city").value;
-let phone=document.getElementById("phone").value;
-if(!name||!address||!postcode||!city||!phone){alert("Fyll inn all kundeinformasjon.");return;}
 
-let orderNumber="H3D-"+Math.floor(Math.random()*1000000);
+let body="Ordrenummer: "+orderNumber+"\n\n"
 
-document.getElementById("orderNumberDisplay").innerHTML="<b>Ordrenummer:</b> "+orderNumber;
-document.getElementById("shopContent").style.display="none";
-document.getElementById("thankYouPage").style.display="block";
+body+="Produkter:\n"
 
-let items=cart.map(i=>i.name+" - "+i.price+" kr").join("\n");
+cart.forEach(p=>body+=p+"\n")
 
-let mailBody=
-"Ordrenummer: "+orderNumber+"\n\n"+
-"Produkter:\n"+items+"\n\n"+
-"Varer: "+subtotal+" kr\n"+
-"Frakt: "+shipping+" kr\n"+
-"Total: "+(subtotal+shipping)+" kr\n\n"+
-"Kunde:\n"+name+"\n"+address+"\n"+postcode+" "+city+"\n"+phone+"\n\n"+
-"Husk å skrive ordrenummer i Vipps-meldingen.";
-
-let encodedBody=encodeURIComponent(mailBody);
+body+="\nNavn:\nAdresse:\nPostnummer:\nPoststed:\nTelefon:\n"
 
 window.location.href=
-"mailto:hatti3dprint@gmail.com?subject=Ny bestilling "+orderNumber+"&body="+encodedBody;
+"mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
 
-cart=[];
-subtotal=0;
-updateTotals();
 }
+
+let images=[]
+let index=0
+
+function openGallery(arr){
+
+images=arr
+
+index=0
+
+document.getElementById("galleryImg").src=images[index]
+
+document.getElementById("gallery").style.display="flex"
+
+}
+
+function closeGallery(){
+
+document.getElementById("gallery").style.display="none"
+
+}
+
+function next(){
+
+index=(index+1)%images.length
+
+document.getElementById("galleryImg").src=images[index]
+
+}
+
+function prev(){
+
+index=(index-1+images.length)%images.length
+
+document.getElementById("galleryImg").src=images[index]
+
+}
+
 </script>
 
 </body>
