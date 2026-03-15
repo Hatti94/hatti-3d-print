@@ -128,94 +128,11 @@ Gratis frakt over 1000 kr
 
 <div class="products">
 
-<!-- Pokemon -->
+<!-- BLÅ KANIN -->
 
 <div class="card">
 
-<img id="pokemonImg" src="pokemon.jpg"
-onclick="openGallery(['pokemon.jpg','pokemon2.jpg'])">
-
-<h2>Pokemon Kortboks</h2>
-
-<p><b>350 kr</b></p>
-
-<select id="pokemonType" onchange="changePokemonImage()">
-<option value="red">Rød topp</option>
-<option value="blue">Blå topp</option>
-</select>
-
-<button onclick="addToCart('Pokemon Kortboks',350,'pokemonType')">
-Legg i handlekurv
-</button>
-
-</div>
-
-
-<!-- Isbeger -->
-
-<div class="card">
-
-<img id="iceImg" src="20260222_143805.jpg"
-onclick="openGallery(['20260222_143805.jpg','is1.jpg','is2.jpg','is3.jpg','is4.png','is5.png'])">
-
-<h2>Isbeger Holder</h2>
-
-<p><b>599 kr</b></p>
-
-<select id="iceType" onchange="changeIceImage()">
-<option value="cow">Highland Cow</option>
-<option value="panda">Panda</option>
-</select>
-
-<button onclick="addToCart('Isbeger Holder',599,'iceType')">
-Legg i handlekurv
-</button>
-
-</div>
-
-
-<!-- Mummi -->
-
-<div class="card">
-
-<img src="mummihovedbilde.jpeg"
-onclick="openGallery(['mummihovedbilde.jpeg','mummi1.jpeg','mummi2.jpeg','mummi3.jpeg','mummi4.jpeg','mummi5.jpeg'])">
-
-<h2>Mummikopp Stabler</h2>
-
-<p>20 kr stk<br>15 kr stk ved kjøp av 10+</p>
-
-<input type="number" id="mummiQty" value="1" min="1">
-
-<button onclick="addMummi()">Legg i handlekurv</button>
-
-</div>
-
-
-<!-- Kaninsett -->
-
-<div class="card">
-
-<img src="25151.jpg"
-onclick="openGallery(['25151.jpg','25152.jpg','25153.jpg'])">
-
-<h2>Påskepynt Kaninsett</h2>
-
-<p>3 kaniner – 10 / 14 / 17 cm</p>
-
-<p><b>150 kr</b></p>
-
-<button onclick="addToCart('Påskekanin sett',150)">Legg i handlekurv</button>
-
-</div>
-
-
-<!-- Blå kanin -->
-
-<div class="card">
-
-<img src="bluebunny.png"
-onclick="openGallery(['bluebunny.png'])">
+<img src="bluebunny.png" onclick="openGallery(['bluebunny.png'])">
 
 <h2>Blå Påskekanin</h2>
 
@@ -229,13 +146,11 @@ onclick="openGallery(['bluebunny.png'])">
 
 </div>
 
-
-<!-- Gul kanin -->
+<!-- GUL KANIN -->
 
 <div class="card">
 
-<img src="yellowbunny.png"
-onclick="openGallery(['yellowbunny.png'])">
+<img src="yellowbunny.png" onclick="openGallery(['yellowbunny.png'])">
 
 <h2>Gul Påskekanin</h2>
 
@@ -246,6 +161,42 @@ onclick="openGallery(['yellowbunny.png'])">
 <input type="number" id="yellowBunnyQty" value="1" min="1">
 
 <button onclick="addYellowBunny()">Legg i handlekurv</button>
+
+</div>
+
+<!-- BRUN KANIN -->
+
+<div class="card">
+
+<img src="brunkanin.png" onclick="openGallery(['brunkanin.png'])">
+
+<h2>Brun Påskekanin</h2>
+
+<p>20.5 cm høy</p>
+
+<p><b>150 kr</b></p>
+
+<input type="number" id="brownBunnyQty" value="1" min="1">
+
+<button onclick="addBrownBunny()">Legg i handlekurv</button>
+
+</div>
+
+<!-- GRØNN KANIN -->
+
+<div class="card">
+
+<img src="grønnkanin.png" onclick="openGallery(['grønnkanin.png'])">
+
+<h2>Grønn Påskekanin</h2>
+
+<p>16.5 cm høy</p>
+
+<p><b>80 kr</b></p>
+
+<input type="number" id="greenBunnyQty" value="1" min="1">
+
+<button onclick="addGreenBunny()">Legg i handlekurv</button>
 
 </div>
 
@@ -273,90 +224,16 @@ onclick="openGallery(['yellowbunny.png'])">
 </div>
 
 
-<div id="gallery" class="gallery">
-
-<span class="close" onclick="closeGallery()">✖</span>
-
-<img id="galleryImg">
-
-<button onclick="prev()">Forrige</button>
-<button onclick="next()">Neste</button>
-
-</div>
-
-
 <script>
 
 let cart=[]
 let total=0
 let orderNumber=Math.floor(Math.random()*90000)+10000
 
-function addToCart(name,price,variant){
-
-let v=""
-
-if(variant){
-v=" ("+document.getElementById(variant).value+")"
-}
-
-cart.push({name:name+v,price:price})
-
-total+=price
-
-updateCart()
-
-}
-
-function addMummi(){
-
-let qty=parseInt(document.getElementById("mummiQty").value)
-
-let price=20
-
-if(qty>=10){price=15}
-
-let totalPrice=qty*price
-
-cart.push({name:"Mummikopp Stabler x"+qty,price:totalPrice})
-
-total+=totalPrice
-
-updateCart()
-
-}
-
-function addBlueBunny(){
-
-let qty=parseInt(document.getElementById("blueBunnyQty").value)
-
-let totalPrice=qty*50
-
-cart.push({name:"Blå Påskekanin x"+qty,price:totalPrice})
-
-total+=totalPrice
-
-updateCart()
-
-}
-
-function addYellowBunny(){
-
-let qty=parseInt(document.getElementById("yellowBunnyQty").value)
-
-let totalPrice=qty*150
-
-cart.push({name:"Gul Påskekanin x"+qty,price:totalPrice})
-
-total+=totalPrice
-
-updateCart()
-
-}
 
 function updateCart(){
 
 let list=document.getElementById("cart")
-
 list.innerHTML=""
 
 cart.forEach((item,i)=>{
@@ -378,8 +255,64 @@ document.getElementById("total").innerHTML="Sum: "+total+" kr + Frakt: "+shippin
 function removeItem(i){
 
 total -= cart[i].price
-
 cart.splice(i,1)
+
+updateCart()
+
+}
+
+
+function addBlueBunny(){
+
+let qty=parseInt(document.getElementById("blueBunnyQty").value)
+
+let price=qty*50
+
+cart.push({name:"Blå kanin x"+qty,price:price})
+
+total+=price
+
+updateCart()
+
+}
+
+function addYellowBunny(){
+
+let qty=parseInt(document.getElementById("yellowBunnyQty").value)
+
+let price=qty*150
+
+cart.push({name:"Gul kanin x"+qty,price:price})
+
+total+=price
+
+updateCart()
+
+}
+
+function addBrownBunny(){
+
+let qty=parseInt(document.getElementById("brownBunnyQty").value)
+
+let price=qty*150
+
+cart.push({name:"Brun kanin x"+qty,price:price})
+
+total+=price
+
+updateCart()
+
+}
+
+function addGreenBunny(){
+
+let qty=parseInt(document.getElementById("greenBunnyQty").value)
+
+let price=qty*80
+
+cart.push({name:"Grønn kanin x"+qty,price:price})
+
+total+=price
 
 updateCart()
 
@@ -408,58 +341,6 @@ body+="Poststed: "+city+"\n"
 body+="Telefon: "+phone+"\n"
 
 window.location.href="mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
-
-}
-
-let images=[]
-let index=0
-
-function openGallery(arr){
-
-images=arr
-index=0
-
-document.getElementById("galleryImg").src=images[index]
-
-document.getElementById("gallery").style.display="flex"
-
-}
-
-function closeGallery(){
-document.getElementById("gallery").style.display="none"
-}
-
-function next(){
-index=(index+1)%images.length
-document.getElementById("galleryImg").src=images[index]
-}
-
-function prev(){
-index=(index-1+images.length)%images.length
-document.getElementById("galleryImg").src=images[index]
-}
-
-function changePokemonImage(){
-
-let type=document.getElementById("pokemonType").value
-
-if(type=="red"){
-document.getElementById("pokemonImg").src="pokemon.jpg"
-}else{
-document.getElementById("pokemonImg").src="pokemon2.jpg"
-}
-
-}
-
-function changeIceImage(){
-
-let type=document.getElementById("iceType").value
-
-if(type=="cow"){
-document.getElementById("iceImg").src="20260222_143805.jpg"
-}else{
-document.getElementById("iceImg").src="is4.png"
-}
 
 }
 
