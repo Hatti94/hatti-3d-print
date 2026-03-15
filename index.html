@@ -44,7 +44,6 @@ box-shadow:0 6px 20px rgba(0,0,0,0.25);
 .card img{
 width:100%;
 border-radius:10px;
-cursor:pointer;
 }
 
 button{
@@ -72,33 +71,6 @@ padding:20px;
 border-radius:12px;
 }
 
-.gallery{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.9);
-justify-content:center;
-align-items:center;
-flex-direction:column;
-}
-
-.gallery img{
-max-width:90%;
-max-height:70%;
-}
-
-.close{
-position:absolute;
-top:20px;
-right:30px;
-font-size:35px;
-color:white;
-cursor:pointer;
-}
-
 </style>
 </head>
 
@@ -112,15 +84,13 @@ cursor:pointer;
 
 <p><b>Alle produkter printes på bestilling</b></p>
 
-<p>Når du trykker fullfør bestilling åpnes e-postprogrammet automatisk.</p>
-
 <p>
 Vipps: <b>48093344</b><br>
-Husk å skrive ordrenummer i Vipps-meldingen
+Husk å skrive ordrenummer i Vipps melding
 </p>
 
 <p>
-Frakt: 90 kr<br>
+Frakt 90 kr<br>
 Gratis frakt over 1000 kr
 </p>
 
@@ -131,77 +101,81 @@ Gratis frakt over 1000 kr
 <!-- BLÅ KANIN -->
 
 <div class="card">
-
-<img src="bluebunny.png" onclick="openGallery(['bluebunny.png'])">
-
+<img src="bluebunny.png">
 <h2>Blå Påskekanin</h2>
-
 <p>13.5 cm høy</p>
-
 <p><b>50 kr</b></p>
-
-<input type="number" id="blueBunnyQty" value="1" min="1">
-
-<button onclick="addBlueBunny()">Legg i handlekurv</button>
-
+<input type="number" id="blueQty" value="1" min="1">
+<button onclick="addItem('Blå kanin',50,'blueQty')">Legg i handlekurv</button>
 </div>
 
 <!-- GUL KANIN -->
 
 <div class="card">
-
-<img src="yellowbunny.png" onclick="openGallery(['yellowbunny.png'])">
-
+<img src="yellowbunny.png">
 <h2>Gul Påskekanin</h2>
-
 <p>20.5 cm høy</p>
-
 <p><b>150 kr</b></p>
-
-<input type="number" id="yellowBunnyQty" value="1" min="1">
-
-<button onclick="addYellowBunny()">Legg i handlekurv</button>
-
+<input type="number" id="yellowQty" value="1" min="1">
+<button onclick="addItem('Gul kanin',150,'yellowQty')">Legg i handlekurv</button>
 </div>
 
 <!-- BRUN KANIN -->
 
 <div class="card">
-
-<img src="brunkanin.png" onclick="openGallery(['brunkanin.png'])">
-
+<img src="brunkanin.png">
 <h2>Brun Påskekanin</h2>
-
 <p>20.5 cm høy</p>
-
 <p><b>150 kr</b></p>
-
-<input type="number" id="brownBunnyQty" value="1" min="1">
-
-<button onclick="addBrownBunny()">Legg i handlekurv</button>
-
+<input type="number" id="brownQty" value="1" min="1">
+<button onclick="addItem('Brun kanin',150,'brownQty')">Legg i handlekurv</button>
 </div>
 
 <!-- GRØNN KANIN -->
 
 <div class="card">
-
-<img src="grønnkanin.png" onclick="openGallery(['grønnkanin.png'])">
-
+<img src="grønnkanin.png">
 <h2>Grønn Påskekanin</h2>
-
 <p>16.5 cm høy</p>
-
 <p><b>80 kr</b></p>
+<input type="number" id="greenQty" value="1" min="1">
+<button onclick="addItem('Grønn kanin',80,'greenQty')">Legg i handlekurv</button>
+</div>
 
-<input type="number" id="greenBunnyQty" value="1" min="1">
+<!-- POKEMON BOKS -->
 
-<button onclick="addGreenBunny()">Legg i handlekurv</button>
+<div class="card">
+<img src="pokemon.jpg">
+<h2>Pokemon Kortboks</h2>
+<p>Beskytt kortene dine og lagre dem trygt.</p>
+<p><b>350 kr</b></p>
+<button onclick="addItem('Pokemon kortboks',350)">Legg i handlekurv</button>
+</div>
 
+<!-- ISBEGER HOLDER -->
+
+<div class="card">
+<img src="20260222_143805.jpg">
+<h2>Isbeger Holder</h2>
+<p>
+Holder isen kald lenger og gjør at du slipper å holde
+på det kalde isbegeret.
+</p>
+<p><b>599 kr</b></p>
+<button onclick="addItem('Isbeger holder',599)">Legg i handlekurv</button>
+</div>
+
+<!-- MUMMI -->
+
+<div class="card">
+<img src="mummihovedbilde.jpeg">
+<h2>Mummikopp Stabler</h2>
+<p>20 kr stk<br>15 kr stk ved kjøp av 10+</p>
+<input type="number" id="mummiQty" value="1" min="1">
+<button onclick="addMummi()">Legg i handlekurv</button>
 </div>
 
 </div>
-
 
 <div class="cart">
 
@@ -223,17 +197,52 @@ Gratis frakt over 1000 kr
 
 </div>
 
-
 <script>
 
 let cart=[]
 let total=0
 let orderNumber=Math.floor(Math.random()*90000)+10000
 
+function addItem(name,price,qtyId){
+
+let qty=1
+
+if(qtyId){
+qty=parseInt(document.getElementById(qtyId).value)
+}
+
+let sum=price*qty
+
+cart.push({name:name+" x"+qty,price:sum})
+
+total+=sum
+
+updateCart()
+
+}
+
+function addMummi(){
+
+let qty=parseInt(document.getElementById("mummiQty").value)
+
+let price=20
+
+if(qty>=10){price=15}
+
+let sum=price*qty
+
+cart.push({name:"Mummikopp stabler x"+qty,price:sum})
+
+total+=sum
+
+updateCart()
+
+}
 
 function updateCart(){
 
 let list=document.getElementById("cart")
+
 list.innerHTML=""
 
 cart.forEach((item,i)=>{
@@ -254,65 +263,8 @@ document.getElementById("total").innerHTML="Sum: "+total+" kr + Frakt: "+shippin
 
 function removeItem(i){
 
-total -= cart[i].price
+total-=cart[i].price
 cart.splice(i,1)
-
-updateCart()
-
-}
-
-
-function addBlueBunny(){
-
-let qty=parseInt(document.getElementById("blueBunnyQty").value)
-
-let price=qty*50
-
-cart.push({name:"Blå kanin x"+qty,price:price})
-
-total+=price
-
-updateCart()
-
-}
-
-function addYellowBunny(){
-
-let qty=parseInt(document.getElementById("yellowBunnyQty").value)
-
-let price=qty*150
-
-cart.push({name:"Gul kanin x"+qty,price:price})
-
-total+=price
-
-updateCart()
-
-}
-
-function addBrownBunny(){
-
-let qty=parseInt(document.getElementById("brownBunnyQty").value)
-
-let price=qty*150
-
-cart.push({name:"Brun kanin x"+qty,price:price})
-
-total+=price
-
-updateCart()
-
-}
-
-function addGreenBunny(){
-
-let qty=parseInt(document.getElementById("greenBunnyQty").value)
-
-let price=qty*80
-
-cart.push({name:"Grønn kanin x"+qty,price:price})
-
-total+=price
 
 updateCart()
 
@@ -326,19 +278,15 @@ let zip=document.getElementById("zip").value
 let city=document.getElementById("city").value
 let phone=document.getElementById("phone").value
 
-let body="Ordrenummer: "+orderNumber+"\n\n"
-
-body+="Produkter:\n"
+let body="Ordrenummer: "+orderNumber+"\n\nProdukter:\n"
 
 cart.forEach(p=>body+=p.name+"\n")
 
-body+="\nKundeinformasjon:\n"
-
-body+="Navn: "+name+"\n"
-body+="Adresse: "+address+"\n"
-body+="Postnummer: "+zip+"\n"
-body+="Poststed: "+city+"\n"
-body+="Telefon: "+phone+"\n"
+body+="\nNavn: "+name
+body+="\nAdresse: "+address
+body+="\nPostnummer: "+zip
+body+="\nPoststed: "+city
+body+="\nTelefon: "+phone
 
 window.location.href="mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
 
