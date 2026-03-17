@@ -57,7 +57,7 @@ width:100%;
 cursor:pointer;
 }
 
-input,select{
+input{
 width:100%;
 padding:10px;
 margin-top:8px;
@@ -86,18 +86,16 @@ border-radius:12px;
 
 <p>
 Vipps: <b>48093344</b><br>
-Husk å skrive ordrenummer i Vipps melding
+Husk å skrive ordrenummer i Vipps-melding
 </p>
 
 <p>
-Frakt 90 kr<br>
-Gratis frakt over 1000 kr
+Frakt 90 kr – Gratis frakt over 1000 kr
 </p>
 
 <p>
-Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet ditt automatisk 
-med bestillingen ferdig utfylt.  
-Du trenger bare å trykke <b>send</b> for å sende bestillingen.
+Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet ditt automatisk
+med bestillingen ferdig utfylt. Du trenger bare å trykke <b>send</b>.
 </p>
 
 </header>
@@ -148,24 +146,34 @@ Du trenger bare å trykke <b>send</b> for å sende bestillingen.
 <button onclick="addItem('Grønn kanin',80,'greenQty')">Legg i handlekurv</button>
 </div>
 
-<!-- POKEMON BOKS -->
+<!-- KANINSETT -->
+
+<div class="card">
+<img src="25151.jpg">
+<h2>Påskepynt Kaninsett</h2>
+<p>Sett med 3 kaniner (10 cm, 14 cm, 17 cm)</p>
+<p><b>150 kr</b></p>
+<button onclick="addItem('Kaninsett 3 stk',150)">Legg i handlekurv</button>
+</div>
+
+<!-- POKEMON -->
 
 <div class="card">
 <img src="pokemon.jpg">
 <h2>Pokemon Kortboks</h2>
-<p>Beskytt kortene dine og lagre dem trygt.</p>
+<p>Beskytter kortene dine og gjør lagring enklere.</p>
 <p><b>350 kr</b></p>
 <button onclick="addItem('Pokemon kortboks',350)">Legg i handlekurv</button>
 </div>
 
-<!-- ISBEGER HOLDER -->
+<!-- ISBEGER -->
 
 <div class="card">
 <img src="20260222_143805.jpg">
 <h2>Isbeger Holder</h2>
 <p>
-Holder isen kald lenger og gjør at du slipper å holde
-på det kalde isbegeret.
+Holder isen kjøligere lenger og gjør at du slipper å holde
+det kalde isbegeret.
 </p>
 <p><b>599 kr</b></p>
 <button onclick="addItem('Isbeger holder',599)">Legg i handlekurv</button>
@@ -176,7 +184,7 @@ på det kalde isbegeret.
 <div class="card">
 <img src="mummihovedbilde.jpeg">
 <h2>Mummikopp Stabler</h2>
-<p>20 kr stk<br>15 kr stk ved kjøp av 10+</p>
+<p>20 kr stk – 15 kr stk ved kjøp av 10+</p>
 <input type="number" id="mummiQty" value="1" min="1">
 <button onclick="addMummi()">Legg i handlekurv</button>
 </div>
@@ -193,7 +201,7 @@ på det kalde isbegeret.
 
 <p>
 Når du trykker <b>Fullfør bestilling</b> åpnes e-postprogrammet ditt automatisk.
-Kontroller bestillingen og informasjonen før du trykker <b>send</b>.
+Kontroller bestillingen og trykk <b>send</b>.
 </p>
 
 <h3>Kundeinformasjon</h3>
@@ -237,7 +245,6 @@ function addMummi(){
 let qty=parseInt(document.getElementById("mummiQty").value)
 
 let price=20
-
 if(qty>=10){price=15}
 
 let sum=price*qty
@@ -253,7 +260,6 @@ updateCart()
 function updateCart(){
 
 let list=document.getElementById("cart")
-
 list.innerHTML=""
 
 cart.forEach((item,i)=>{
