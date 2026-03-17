@@ -166,17 +166,30 @@ med bestillingen ferdig utfylt. Du trenger bare å trykke <b>send</b>.
 <button onclick="addItem('Pokemon kortboks',350)">Legg i handlekurv</button>
 </div>
 
-<!-- ISBEGER -->
+<!-- ISBEGER HOLDER -->
 
 <div class="card">
-<img src="20260222_143805.jpg">
+
+<img id="iceImg" src="20260222_143805.jpg">
+
 <h2>Isbeger Holder</h2>
+
 <p>
 Holder isen kjøligere lenger og gjør at du slipper å holde
 det kalde isbegeret.
 </p>
+
 <p><b>599 kr</b></p>
-<button onclick="addItem('Isbeger holder',599)">Legg i handlekurv</button>
+
+<select id="iceType" onchange="changeIceImage()">
+<option value="cow">Highland Cow</option>
+<option value="panda">Panda</option>
+</select>
+
+<button onclick="addItem('Isbeger holder',599)">
+Legg i handlekurv
+</button>
+
 </div>
 
 <!-- MUMMI -->
@@ -308,7 +321,17 @@ body+="\nTelefon: "+phone
 window.location.href="mailto:hatti3dprint@gmail.com?subject=Bestilling "+orderNumber+"&body="+encodeURIComponent(body)
 
 }
+function changeIceImage(){
 
+let type=document.getElementById("iceType").value
+
+if(type=="cow"){
+document.getElementById("iceImg").src="20260222_143805.jpg"
+}else{
+document.getElementById("iceImg").src="is4.png"
+}
+
+}
 </script>
 
 </body>
